@@ -26,7 +26,7 @@ public class PlayerCollision : MonoBehaviour
         if(other.tag is "ClearFlag")
         {
             Debug.Log("Ãæµ¹!");
-            InGameManager.instance.StageClear();
+            InGameManager.instance.GameState = InGameManager.InGameState.Bonus;
         }
         
         if(other.tag is "WallPoint")
@@ -54,7 +54,8 @@ public class PlayerCollision : MonoBehaviour
 
                     if (playerStat.CurrentHp <= 0)
                     {
-                        InGameManager.instance.GameOver();
+                        InGameManager.instance.GameState = InGameManager.InGameState.GameOver;
+                        playerCtrl.State = PlayerControl.MoveState.GameOver;
                     }
                     else
                     {

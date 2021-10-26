@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CollisionPoints : MonoBehaviour
 {
     private WallStats objStat;
-    public Text text;
+    private Text text;
 
     void Awake()
     {

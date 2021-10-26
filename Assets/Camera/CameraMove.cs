@@ -10,6 +10,8 @@ public class CameraMove : MonoBehaviour
     private Vector3 finishRotate;
     private Vector3 baseRotate;
 
+    private Transform statsPos;
+
     //private PlayerControl playerComponent;
     public enum State
     {
@@ -30,10 +32,13 @@ public class CameraMove : MonoBehaviour
     void Start()
     {
         distance = new Vector3(0f, 6f, -4.5f);
-        finishDistance = new Vector3(12.6f, 11.6f, -2.2f);
-        finishRotate = new Vector3(32f, -61f, -8f);
         baseRotate = new Vector3(30f, 0f, 0f);
+        finishDistance = new Vector3(10.6f, 9f, -4.2f);
+        finishRotate = new Vector3(32f, -61f, -8f);
         target = InGameManager.instance.player.transform;
+
+        statsPos = GameObject.FindWithTag("PlayerStat").transform;
+
     }
 
     void LateUpdate()
@@ -49,6 +54,8 @@ public class CameraMove : MonoBehaviour
             default:
                 break;
         }
+
+        statsPos.position = (target.position + new Vector3(0f, 1f, -0.5f));
     }
 
     public void InLoadMove()
@@ -59,8 +66,8 @@ public class CameraMove : MonoBehaviour
 
     public void FinishLoadMove()
     {
-        transform.position = Vector3.Lerp(transform.position, target.position + finishDistance, Time.deltaTime * 2f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(finishRotate), Time.deltaTime * 2f);
+        transform.position = Vector3.Lerp(transform.position, target.position + finishDistance, Time.deltaTime * 3f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(finishRotate), Time.deltaTime * 3f);
     }
 }
 /*Vector3.Lerp(transform.position, target.position + distance, Time.fixedDeltaTime * 10f);*/

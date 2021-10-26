@@ -14,7 +14,7 @@ public class ObjectManager : MonoBehaviour
 
     public int startItemCount = 5;
     public int startWallCount = 6;
-    private float startPosZ;
+    //private float startPosZ;
 
     private float timer = 0f;
     private void Awake()
@@ -23,9 +23,9 @@ public class ObjectManager : MonoBehaviour
 
     void Start()
     {
-        startPosZ = InGameManager.instance.player.transform.position.z;
-        WallGenerate(startPosZ, 20, 25, startWallCount);
-        ItemGenerate(startItemCount);
+        //startPosZ = InGameManager.instance.player.transform.position.z;
+        //WallGenerate(startPosZ, 20, 25, startWallCount);
+        //ItemGenerate(startItemCount);
     }
 
     public void WallGenerate(float startPosZ, int startRange, int endRange, int Count)

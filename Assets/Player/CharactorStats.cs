@@ -50,7 +50,7 @@ public class CharactorStats : MonoBehaviour
 
     void Start()
     {
-        MaxHp = 100;
+        MaxHp = 40;
         Init();
     }
 

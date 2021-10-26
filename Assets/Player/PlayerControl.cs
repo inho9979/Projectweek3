@@ -22,7 +22,15 @@ public class PlayerControl : MonoBehaviour
             isClear = value;
         }
     }
-
+    //private bool isStart;
+    //public bool IsStart
+    //{
+    //    get => isStart;
+    //    set
+    //    {
+    //        isStart = value;
+    //    }
+    //}
     private bool isBonus;
     public bool IsBonus
     {
@@ -34,7 +42,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     private float moveSpeed = 0f;
-    private float moveTimer = 0f;
+    private float timer = 0f;
 
     private Vector3 curPos;
     public enum MoveState
@@ -44,7 +52,8 @@ public class PlayerControl : MonoBehaviour
         SideRun,
         KnockBack,
         ClearMove,
-        End
+        End,
+        GameOver,
     }
     public enum MoveDirection
     {
@@ -87,6 +96,10 @@ public class PlayerControl : MonoBehaviour
                 case MoveState.End:
                     moveSpeed = 0f;
                     break;
+                case MoveState.GameOver:
+                    playerAni.SetTrigger("Down");
+                    moveSpeed = 2f;
+                    break;
             }
         }
     }
@@ -105,30 +118,34 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        playerAni.SetFloat("Speed", moveSpeed);
-        Debug.Log(moveSpeed);
-        switch (State)
+        if(InGameManager.instance.GameState != InGameManager.InGameState.Tutorial)
         {
-            case MoveState.Idle:
-                PlayerIdle();
-                break;
-            case MoveState.Run:
-                PlayerRun();
-                break;
-            case MoveState.SideRun:
-                PlayerSideRun();
-                break;
-            case MoveState.KnockBack:
-                PlayerKnockBack();
-                break;
-            case MoveState.ClearMove:
-                PlayerClearWalk();
-                break;
-            case MoveState.End:
-                PlayerFinishRun();
-                break;
-            default:
-                break;
+            playerAni.SetFloat("Speed", moveSpeed);
+            Debug.Log(moveSpeed);
+            switch (State)
+            {
+                case MoveState.Idle:
+                    PlayerIdle();
+                    break;
+                case MoveState.Run:
+                    PlayerRun();
+                    break;
+                case MoveState.SideRun:
+                    PlayerSideRun();
+                    break;
+                case MoveState.KnockBack:
+                    PlayerKnockBack();
+                    break;
+                case MoveState.ClearMove:
+                    PlayerClearWalk();
+                    break;
+                case MoveState.End:
+                    PlayerFinishRun();
+                    break;
+                case MoveState.GameOver:
+                    PlayerGameOver();
+                    break;
+            }
         }
     }
     // 클리어 트리거 -> 게임매니저에서 시키는 동작
@@ -137,16 +154,22 @@ public class PlayerControl : MonoBehaviour
         State = MoveState.Idle;
         isClear = true;
     }
+    public void PlayerStart()
+    {
+        State = MoveState.Run;
+        InGameManager.instance.ui.GetComponent<UIcontrol>().ingameUI.transform.GetChild(0).gameObject.SetActive(false);
+    }
     private void PlayerIdle()
     {
-        //if(Input.GetMouseButtonDown(1) && !isClear)
+        //if (Input.GetMouseButtonDown(0) && !isClear)
         //{
         //    State = MoveState.Run;
         //}
-        if(touchFuc.Tap() && !isClear)
-        {
-            State = MoveState.Run;
-        }
+
+        //if(touchFuc.Tap() && !isClear)
+        //{
+        //    State = MoveState.Run;
+        //}
 
         if (isClear)
         {
@@ -158,21 +181,21 @@ public class PlayerControl : MonoBehaviour
         var moveDir = transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
 
-        var Swipevec = touchFuc.Swipe();
-        if (Swipevec != Vector2.zero)
-        {
-            Debug.Log("스와이프");
-            moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
-            State = MoveState.SideRun;
-
-        }
-        //if (Input.GetMouseButton(0) && isMove == false)
+        //var Swipevec = touchFuc.Swipe();
+        //if (Swipevec != Vector2.zero)
         //{
-        //    Debug.Log("버튼클릭");
-        //    var pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        //    moveDirect = pos.x > 0.5f ? MoveDirection.right : MoveDirection.left;
+        //    Debug.Log("스와이프");
+        //    moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
         //    State = MoveState.SideRun;
+
         //}
+        if (Input.GetMouseButton(0) && isMove == false)
+        {
+            Debug.Log("버튼클릭");
+            var pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            moveDirect = pos.x > 0.5f ? MoveDirection.right : MoveDirection.left;
+            State = MoveState.SideRun;
+        }
     }
 
     private void PlayerSideRun()
@@ -213,19 +236,32 @@ public class PlayerControl : MonoBehaviour
     {
         //if(playerAni.GetCurrentAnimatorStateInfo(0).IsName("KnockBack"))
         //{
-        moveTimer += Time.deltaTime;
-        var moveDir = -transform.forward;
-        playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
         //}
         // else
         //{
-        if (moveTimer > 1f)
+        //}
+        timer += Time.deltaTime;
+        var moveDir = -transform.forward;
+        playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+        if (timer > 1f)
         {
+            if (Mathf.Abs(transform.position.x) < 1.5)
+            {
+                transform.position = new Vector3(0f, transform.position.y, transform.position.z);
+            }
+            else
+            {
+               transform.position = transform.position.x > 0 ? new Vector3(3f, transform.position.y, transform.position.z)
+                    : new Vector3(-3f, transform.position.y, transform.position.z);
+            }
+            //playerRigid.MoveRotation(Quaternion.identity);
+            // 이코드쓰면 작동 잘 안됨
+            transform.rotation = Quaternion.identity;
             state = MoveState.Run;
             moveSpeed = 10f;
-            moveTimer = 0f;
+            timer = 0f;
+            isMove = false;
         }
-        //}
     }
 
     private void PlayerClearWalk()
@@ -234,6 +270,7 @@ public class PlayerControl : MonoBehaviour
         var distance = Vector3.Distance(transform.position, bonusPos);
         var dir = (bonusPos - transform.position).normalized;
 
+        playerRigid.MoveRotation(Quaternion.identity);
         playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
 
         if(distance <= 3f)
@@ -245,9 +282,9 @@ public class PlayerControl : MonoBehaviour
     private void PlayerFinishRun()
     {
         var dir = transform.forward;
-        moveTimer += Time.deltaTime;
+        timer += Time.deltaTime;
         // 2초 대기
-        if (moveTimer <= 2f)
+        if (timer <= 2f)
             return;
 
         var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
@@ -274,6 +311,35 @@ public class PlayerControl : MonoBehaviour
                 moveSpeed = 0f;
                 InGameManager.instance.GameClear();
             }
+        }
+    }
+    private void PlayerGameOver()
+    {
+        timer += Time.deltaTime;
+        if (timer > 1f)
+        {
+            //if (Mathf.Abs(transform.position.x) < 1.5)
+            //{
+            //    transform.position = new Vector3(0f, transform.position.y, transform.position.z);
+            //}
+            //else
+            //{
+            //    transform.position = transform.position.x > 0 ? new Vector3(3f, transform.position.y, transform.position.z)
+            //         : new Vector3(-3f, transform.position.y, transform.position.z);
+            //}
+            //transform.rotation = Quaternion.identity;
+            //state = MoveState.Run;
+            //moveSpeed = 10f;
+            //timer = 0f;
+            //isMove = false;
+            moveSpeed = 0f;
+            transform.position = curPos + new Vector3(0f, 0.12f, 0f);
+        }
+        else
+        {
+            var moveDir = -transform.forward;
+            playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+            curPos = transform.position;
         }
     }
 }
