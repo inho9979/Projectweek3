@@ -10,9 +10,11 @@ public class Wall : MonoBehaviour
         center,
         left
     }
-
+    public Material material;
     private CollisionPoints[] blockPoint;
     private WeakPoint weak;
+
+    private MeshRenderer[] mesh = new MeshRenderer[3];
 
     void Awake()
     {
@@ -24,12 +26,36 @@ public class Wall : MonoBehaviour
             blockPoint[i] = transform.GetChild(i).GetComponent<CollisionPoints>();
             blockPoint[i].transform.tag = "WallPoint";
         }
+
+      
     }
 
     // Awake타이밍에서는 자식오브젝트 생성이 안되잇기때문에 start()에서 호출
     private void Start()
     {
         SetStats(30, 1);
+    }
+
+    public void setMesh()
+    {
+        Transform[] meshrender = new Transform[3];
+        meshrender[0] = transform.Find("Original Mesh3");
+        meshrender[1] = transform.Find("Original Mesh2");
+        meshrender[2] = transform.Find("Original Mesh");
+
+        for (int i = 0; i < meshrender.Length; i++)
+        {
+            mesh[i] = meshrender[i].GetComponent<MeshRenderer>();
+        }
+
+        mesh[(int)weak].materials[0].color = Color.red;
+    }
+
+    public void DestroyMesh()
+    {
+        mesh[0].enabled = false;
+        mesh[1].enabled = false;
+        mesh[2].enabled = false;
     }
 
     public void SetStats(int maxHp, int minHp)

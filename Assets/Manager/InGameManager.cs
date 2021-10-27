@@ -16,11 +16,8 @@ public class InGameManager : MonoBehaviour
     private PlayerControl playerCtrlComponent;
     private ObjectManager objGenerateComponent;
     private Score scoreComponent;
-    private UIcontrol uiCtrlComponent;
+    private InGameUImanager uiCtrlComponent;
     private Touch touchFuc;
-
-    private int tutoStep = 0;
-    private float startPosZ;
 
     public enum InGameState
     {
@@ -41,23 +38,35 @@ public class InGameManager : MonoBehaviour
             switch (gameState)
             {
                 case InGameState.Tutorial:
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    objGenerateComponent.ChangeState(gameState);
                     break;
                 case InGameState.Play:
-                    uiCtrlComponent.Play();
-                    objGenerateComponent.WallGenerate(startPosZ, 20, 25, 6);
-                    objGenerateComponent.ItemGenerate(3);
-                    Resume();
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    objGenerateComponent.ChangeState(gameState);
                     break;
                 case InGameState.Pause:
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    objGenerateComponent.ChangeState(gameState);
                     Pause();
                     break;
                 case InGameState.Bonus:
-                    Bonus();
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    objGenerateComponent.ChangeState(gameState);
                     break;
                 case InGameState.Clear:
-                    GameClear();
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    objGenerateComponent.ChangeState(gameState);
                     break;
                 case InGameState.GameOver:
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    objGenerateComponent.ChangeState(gameState);
                     StartCoroutine(GameOver());
                     break;
             }
@@ -70,59 +79,40 @@ public class InGameManager : MonoBehaviour
         playerCtrlComponent = player.GetComponent<PlayerControl>();
         objGenerateComponent = objectManager.GetComponent<ObjectManager>();
         scoreComponent = score.GetComponent<Score>();
-        uiCtrlComponent = ui.GetComponent<UIcontrol>();
+        uiCtrlComponent = ui.GetComponent<InGameUImanager>();
         touchFuc = GameObject.FindWithTag("Touch").GetComponent<Touch>();
         GameState = InGameState.Tutorial;
-        startPosZ = player.transform.position.z;
+    }
+
+    private void Start()
+    {
     }
 
     void Update()
     {
         BonusStateCheck();
-        if(gameState == InGameState.Tutorial)
-            Tutorial();
     }
 
-    public void Tutorial()
+    public void GamePlay()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("터치함");
-            tutoStep++;
-            if(tutoStep > 2)
-            {
-                GameState = InGameState.Play;
-                GameObject.FindWithTag("TutoObject").SetActive(false);
-                uiCtrlComponent.ingameUI.transform.GetChild(0).gameObject.SetActive(true);
-                return;
-            }
-            uiCtrlComponent.tutoStep[tutoStep-1].SetActive(false);
-            uiCtrlComponent.tutoStep[tutoStep].SetActive(true);
-        }
+        GameState = InGameState.Play;
     }
-
     public void ReStart()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
-    // 마찬가지.. 아직 미정
     public void Pause()
     {
         Time.timeScale = 0f;
     }
-    // 마찬가지.. 아직 미정
     public void Resume()
     {
         Time.timeScale = 1f;
     }
 
-    // 클리어될시 필요한 모든 동작들 실행
     public void Bonus()
     {
-        playerCtrlComponent.StageClear();
-        objGenerateComponent.BonusGenerate();
-        scoreComponent.BonusCount = 10;/*(scoreComponent.ScorePoint) / 10;*/
     }
     // 게임 오버에 필요한 모든 동작들 실행
     public IEnumerator GameOver()
@@ -134,12 +124,11 @@ public class InGameManager : MonoBehaviour
 
     public void GameClear()
     {
-        uiCtrlComponent.GameClearUI();
     }
 
     public void BonusStateCheck()
     {
         if (scoreComponent.BonusCount <= 0)
-            playerCtrlComponent.IsBonus = false;
+            playerCtrlComponent.IsBonusRun = false;
     }
 }

@@ -1614,9 +1614,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1108080361}
-        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: PlayerStart
+      - m_Target: {fileID: 1039143948}
+        m_TargetAssemblyTypeName: InGameManager, Assembly-CSharp
+        m_MethodName: GamePlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6917,15 +6917,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8471471697977525073, guid: 8b8c1809180b95d478b17dc350d61322, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8471471697977525073, guid: 8b8c1809180b95d478b17dc350d61322, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8471471697977525073, guid: 8b8c1809180b95d478b17dc350d61322, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8471471697977525073, guid: 8b8c1809180b95d478b17dc350d61322, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6996,7 +6996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acdf57e2e240654fb832fba764c7be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 566118385389323943, guid: a765d1f79b6ebed4b83d8689a0e48935, type: 3}
+  wallPrefab: {fileID: 8380736683468540558, guid: e2bbcc46288c4c44c8cb56ba2f31acef, type: 3}
   bonusWallPrefab: {fileID: 2007563780322132096, guid: 8b28083aed283a44089d20902ccb0a44, type: 3}
   bonusStage: {fileID: 3955522028481567682, guid: 62b7e7fe49d411846a315ca70e28fb77, type: 3}
   itemPrefab:

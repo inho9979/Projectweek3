@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectManager : MonoBehaviour
+public class ObjectManager : MonoBehaviour, IStateChangeable
 {
     public GameObject wallPrefab;
     public GameObject bonusWallPrefab;
@@ -12,9 +12,9 @@ public class ObjectManager : MonoBehaviour
     private List<GameObject> wallList = new List<GameObject>();
     private List<GameObject> bonusWallList = new List<GameObject>();
 
-    public int startItemCount = 5;
+    public int startItemCount = 3;
     public int startWallCount = 6;
-    //private float startPosZ;
+    private float startPosZ;
 
     private float timer = 0f;
     private void Awake()
@@ -23,12 +23,38 @@ public class ObjectManager : MonoBehaviour
 
     void Start()
     {
-        //startPosZ = InGameManager.instance.player.transform.position.z;
-        //WallGenerate(startPosZ, 20, 25, startWallCount);
-        //ItemGenerate(startItemCount);
+        startPosZ = InGameManager.instance.player.transform.position.z;
     }
 
-    public void WallGenerate(float startPosZ, int startRange, int endRange, int Count)
+
+    public void ChangeState(InGameManager.InGameState state)
+    {
+        switch (state)
+        {
+            case InGameManager.InGameState.Tutorial:
+                GameObject.FindWithTag("TutoObject").SetActive(true);
+                break;
+            case InGameManager.InGameState.Play:
+                GameObject.FindWithTag("TutoObject").SetActive(false);
+                WallGenerate(startPosZ, 20, 25, startWallCount);
+                ItemGenerate(startItemCount);
+                foreach(var obj in wallList)
+                {
+                    obj.GetComponent<Wall>().setMesh();
+                }
+                break;
+            case InGameManager.InGameState.Pause:
+                break;
+            case InGameManager.InGameState.Bonus:
+                BonusGenerate();
+                break;
+            case InGameManager.InGameState.Clear:
+                break;
+            case InGameManager.InGameState.GameOver:
+                break;
+        }
+    }
+        public void WallGenerate(float startPosZ, int startRange, int endRange, int Count)
     {
         var distanceSum = 0f;
         var walldistance = 0f;
@@ -106,6 +132,8 @@ public class ObjectManager : MonoBehaviour
         mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
 
         BonusWallGenerate(stage.transform.position.z, 10);
+        var bonusCount = InGameManager.instance.score.GetComponent<Score>();
+        bonusCount.BonusCount = 10;
     }
 
     public IEnumerator wallDestroy(GameObject wall)
@@ -115,5 +143,6 @@ public class ObjectManager : MonoBehaviour
     }
     void Update()
     {
+
     }
 }

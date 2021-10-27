@@ -25,7 +25,6 @@ public class PlayerCollision : MonoBehaviour
     {
         if(other.tag is "ClearFlag")
         {
-            Debug.Log("충돌!");
             InGameManager.instance.GameState = InGameManager.InGameState.Bonus;
         }
         
@@ -42,8 +41,8 @@ public class PlayerCollision : MonoBehaviour
                     {
                         obj.gameObject.SendMessage("Damage", 1000f, SendMessageOptions.DontRequireReceiver);
                     }
-                    //Destroy(other.transform.parent.gameObject);
                     var objMgr = InGameManager.instance.objectManager.GetComponent<ObjectManager>();
+                    other.transform.parent.GetComponent<Wall>().DestroyMesh();
                     StartCoroutine(objMgr.wallDestroy(other.transform.parent.gameObject));
                 }
                 else
@@ -55,7 +54,6 @@ public class PlayerCollision : MonoBehaviour
                     if (playerStat.CurrentHp <= 0)
                     {
                         InGameManager.instance.GameState = InGameManager.InGameState.GameOver;
-                        playerCtrl.State = PlayerControl.MoveState.GameOver;
                     }
                     else
                     {
@@ -63,10 +61,11 @@ public class PlayerCollision : MonoBehaviour
                         var frags = Physics.OverlapSphere(transform.position, 10f);
                         foreach (var obj in frags)
                         {
-                            obj.gameObject.SendMessage("Damage", 2f, SendMessageOptions.DontRequireReceiver);
+                            obj.gameObject.SendMessage("Damage", 1f, SendMessageOptions.DontRequireReceiver);
                         }
 
                         var objMgr = InGameManager.instance.objectManager.GetComponent<ObjectManager>();
+                        other.transform.parent.GetComponent<Wall>().DestroyMesh();
                         StartCoroutine(objMgr.wallDestroy(other.transform.parent.gameObject));
                     }
                 }
@@ -87,7 +86,6 @@ public class PlayerCollision : MonoBehaviour
             {
                 // 토탈파워에 set하는 값은 플레이어 기존공격력에 x 하는 배율값
                 playerStat.TotalPower = itemObj.ItemPower;
-                Debug.Log(playerStat.TotalPower);
                 Destroy(other.gameObject);
             }
         }
@@ -101,11 +99,6 @@ public class PlayerCollision : MonoBehaviour
             foreach (var obj in frags)
             {
                 obj.gameObject.SendMessage("Damage", 1000f, SendMessageOptions.DontRequireReceiver);
-                var rigid = obj.gameObject.GetComponent<Rigidbody>();
-                if (rigid != null)
-                {
-                    rigid.AddForce(new Vector3(0f, 2f, 3f), ForceMode.Impulse);
-                }
             }
             //Destroy(other.gameObject);
         }

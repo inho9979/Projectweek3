@@ -2,7 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControl : MonoBehaviour
+static class Constants
+{
+    public const float playerRunSpeed = 10f;
+    public const float playerWalkSpeed = 3f;
+    public const float playerBackSpeed = 2f;
+}
+
+public class PlayerControl : MonoBehaviour, IStateChangeable
 {
 
     private Rigidbody playerRigid;
@@ -22,22 +29,13 @@ public class PlayerControl : MonoBehaviour
             isClear = value;
         }
     }
-    //private bool isStart;
-    //public bool IsStart
-    //{
-    //    get => isStart;
-    //    set
-    //    {
-    //        isStart = value;
-    //    }
-    //}
-    private bool isBonus;
-    public bool IsBonus
+    private bool isBonusRun;
+    public bool IsBonusRun
     {
-        get => isBonus;
+        get => isBonusRun;
         set
         {
-            isBonus = value;
+            isBonusRun = value;
         }
     }
 
@@ -45,6 +43,14 @@ public class PlayerControl : MonoBehaviour
     private float timer = 0f;
 
     private Vector3 curPos;
+    public enum MoveDirection
+    {
+        front,
+        right,
+        left,
+    }
+    private MoveDirection moveDirect;
+
     public enum MoveState
     {
         Idle,
@@ -55,15 +61,6 @@ public class PlayerControl : MonoBehaviour
         End,
         GameOver,
     }
-    public enum MoveDirection
-    {
-        front,
-        right,
-        left,
-    }
-
-    private MoveDirection moveDirect;
-
     private MoveState state;
     public MoveState State
     {
@@ -80,25 +77,25 @@ public class PlayerControl : MonoBehaviour
                     moveSpeed = 0f;
                     break;
                 case MoveState.Run:
-                    moveSpeed = 10f;
+                    moveSpeed = Constants.playerRunSpeed;
                     break;
                 case MoveState.SideRun:
-                    moveSpeed = 10f;
+                    moveSpeed = Constants.playerRunSpeed;
                     curPos = transform.position;
                     break;
                 case MoveState.KnockBack:
                     playerAni.SetTrigger("Knock");
-                    moveSpeed = 2f;
+                    moveSpeed = Constants.playerBackSpeed;
                     break;
                 case MoveState.ClearMove:
-                    moveSpeed = 3f;
+                    moveSpeed = Constants.playerWalkSpeed;
                     break;
                 case MoveState.End:
                     moveSpeed = 0f;
                     break;
                 case MoveState.GameOver:
                     playerAni.SetTrigger("Down");
-                    moveSpeed = 2f;
+                    moveSpeed = Constants.playerBackSpeed;
                     break;
             }
         }
@@ -109,85 +106,77 @@ public class PlayerControl : MonoBehaviour
         playerAni = GetComponent<Animator>();
         State = MoveState.Idle;
         isClear = false;
-        isBonus = false;
+        isBonusRun = false;
         transform.position = new Vector3(0f, 0f, -100f);
         touchFuc = GameObject.FindWithTag("Touch").GetComponent<Touch>();
-
     }
 
-
-    void FixedUpdate()
+    public void ChangeState(InGameManager.InGameState state)
     {
-        if(InGameManager.instance.GameState != InGameManager.InGameState.Tutorial)
+        switch (state)
         {
-            playerAni.SetFloat("Speed", moveSpeed);
-            Debug.Log(moveSpeed);
-            switch (State)
-            {
-                case MoveState.Idle:
-                    PlayerIdle();
-                    break;
-                case MoveState.Run:
-                    PlayerRun();
-                    break;
-                case MoveState.SideRun:
-                    PlayerSideRun();
-                    break;
-                case MoveState.KnockBack:
-                    PlayerKnockBack();
-                    break;
-                case MoveState.ClearMove:
-                    PlayerClearWalk();
-                    break;
-                case MoveState.End:
-                    PlayerFinishRun();
-                    break;
-                case MoveState.GameOver:
-                    PlayerGameOver();
-                    break;
-            }
+            case InGameManager.InGameState.Tutorial:
+                State = MoveState.Idle;
+                break;
+            case InGameManager.InGameState.Play:
+                State = MoveState.Run;
+                break;
+            case InGameManager.InGameState.Pause:
+                State = MoveState.Idle;
+                break;
+            case InGameManager.InGameState.Bonus:
+                State =  MoveState.ClearMove;
+                break;
+            case InGameManager.InGameState.Clear:
+                break;
+            case InGameManager.InGameState.GameOver:
+                State = MoveState.GameOver;
+                break;
         }
     }
-    // 클리어 트리거 -> 게임매니저에서 시키는 동작
-    public void StageClear()
+    void FixedUpdate()
     {
-        State = MoveState.Idle;
-        isClear = true;
-    }
-    public void PlayerStart()
-    {
-        State = MoveState.Run;
-        InGameManager.instance.ui.GetComponent<UIcontrol>().ingameUI.transform.GetChild(0).gameObject.SetActive(false);
+
+        playerAni.SetFloat("Speed", moveSpeed);
+        Debug.Log(moveSpeed);
+        switch (State)
+        {
+            case MoveState.Idle:
+                PlayerIdle();
+                break;
+            case MoveState.Run:
+                PlayerRun();
+                break;
+            case MoveState.SideRun:
+                PlayerSideRun();
+                break;
+            case MoveState.KnockBack:
+                PlayerKnockBack();
+                break;
+            case MoveState.ClearMove:
+                PlayerClearWalk();
+                break;
+            case MoveState.End:
+                PlayerFinishRun();
+                break;
+            case MoveState.GameOver:
+                PlayerGameOver();
+                break;
+        }
     }
     private void PlayerIdle()
     {
-        //if (Input.GetMouseButtonDown(0) && !isClear)
-        //{
-        //    State = MoveState.Run;
-        //}
-
-        //if(touchFuc.Tap() && !isClear)
-        //{
-        //    State = MoveState.Run;
-        //}
-
-        if (isClear)
-        {
-            State = MoveState.ClearMove;
-        }
     }
     private void PlayerRun()
     {
         var moveDir = transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
-
         //var Swipevec = touchFuc.Swipe();
         //if (Swipevec != Vector2.zero)
         //{
         //    Debug.Log("스와이프");
         //    moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
         //    State = MoveState.SideRun;
-
         //}
         if (Input.GetMouseButton(0) && isMove == false)
         {
@@ -234,12 +223,6 @@ public class PlayerControl : MonoBehaviour
 
     private void PlayerKnockBack()
     {
-        //if(playerAni.GetCurrentAnimatorStateInfo(0).IsName("KnockBack"))
-        //{
-        //}
-        // else
-        //{
-        //}
         timer += Time.deltaTime;
         var moveDir = -transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
@@ -258,7 +241,7 @@ public class PlayerControl : MonoBehaviour
             // 이코드쓰면 작동 잘 안됨
             transform.rotation = Quaternion.identity;
             state = MoveState.Run;
-            moveSpeed = 10f;
+            moveSpeed = Constants.playerRunSpeed;
             timer = 0f;
             isMove = false;
         }
@@ -276,7 +259,7 @@ public class PlayerControl : MonoBehaviour
         if(distance <= 3f)
         {
             State = MoveState.End;
-            isBonus = true;
+            isBonusRun = true;
         }
     }
     private void PlayerFinishRun()
@@ -290,9 +273,9 @@ public class PlayerControl : MonoBehaviour
         var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
         camera.CameraState = CameraMove.State.FinishLoad;
 
-        moveSpeed = 15f;
-        if(isBonus)
+        if(isBonusRun)
         {
+            moveSpeed = Constants.playerRunSpeed;
             playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
         }
         else
@@ -303,13 +286,13 @@ public class PlayerControl : MonoBehaviour
             
             if (distance >= 2f)
             {
-                moveSpeed = 5f;
+                moveSpeed = Constants.playerWalkSpeed;
                 playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
             }
             else
             {
                 moveSpeed = 0f;
-                InGameManager.instance.GameClear();
+                InGameManager.instance.GameState = InGameManager.InGameState.Clear;
             }
         }
     }
@@ -318,20 +301,7 @@ public class PlayerControl : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > 1f)
         {
-            //if (Mathf.Abs(transform.position.x) < 1.5)
-            //{
-            //    transform.position = new Vector3(0f, transform.position.y, transform.position.z);
-            //}
-            //else
-            //{
-            //    transform.position = transform.position.x > 0 ? new Vector3(3f, transform.position.y, transform.position.z)
-            //         : new Vector3(-3f, transform.position.y, transform.position.z);
-            //}
-            //transform.rotation = Quaternion.identity;
-            //state = MoveState.Run;
-            //moveSpeed = 10f;
-            //timer = 0f;
-            //isMove = false;
+
             moveSpeed = 0f;
             transform.position = curPos + new Vector3(0f, 0.12f, 0f);
         }
@@ -379,10 +349,46 @@ public class PlayerControl : MonoBehaviour
 //    moveState = MoveState.SideRun;
 //}
 
-
 //public void Init()
 //{
 //    State = MoveState.Idle;
 //    isClear = false;
 //    transform.position = new Vector3(0f, 0f, -100f);
+//}
+
+//if (Mathf.Abs(transform.position.x) < 1.5)
+//{
+//    transform.position = new Vector3(0f, transform.position.y, transform.position.z);
+//}
+//else
+//{
+//    transform.position = transform.position.x > 0 ? new Vector3(3f, transform.position.y, transform.position.z)
+//         : new Vector3(-3f, transform.position.y, transform.position.z);
+//}
+
+//transform.rotation = Quaternion.identity;
+//state = MoveState.Run;
+//moveSpeed = Constants.playerSpeed;
+//timer = 0f;
+//isMove = false;
+
+//if (Input.GetMouseButtonDown(0) && !isClear)
+//{
+//    State = MoveState.Run;
+//}
+//if(touchFuc.Tap() && !isClear)
+//{
+//    State = MoveState.Run;
+//}
+
+//if (isClear)
+//{
+//    State = MoveState.ClearMove;
+//}
+
+// 클리어 트리거 -> 게임매니저에서 시키는 동작
+//public void StageClear()
+//{
+//    State = MoveState.Idle;
+//    isClear = true;
 //}
