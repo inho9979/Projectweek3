@@ -8,6 +8,7 @@ public class PlayerCollision : MonoBehaviour
     private Score getScore;
     private Animator playerAni;
     private PlayerControl playerCtrl;
+    private PlayerEffect playerEffect;
 
     void Start()
     {
@@ -15,6 +16,7 @@ public class PlayerCollision : MonoBehaviour
         playerAni = gameObject.GetComponent<Animator>();
         playerCtrl = gameObject.GetComponent<PlayerControl>();
         getScore = InGameManager.instance.score.GetComponent<Score>();
+        playerEffect = gameObject.GetComponent<PlayerEffect>();
     }
 
     void Update()
@@ -44,6 +46,7 @@ public class PlayerCollision : MonoBehaviour
                     var objMgr = InGameManager.instance.objectManager.GetComponent<ObjectManager>();
                     other.transform.parent.GetComponent<Wall>().DestroyMesh();
                     StartCoroutine(objMgr.wallDestroy(other.transform.parent.gameObject));
+                    playerEffect.AttackEffect();
                 }
                 else
                 {
@@ -68,6 +71,8 @@ public class PlayerCollision : MonoBehaviour
                         other.transform.parent.GetComponent<Wall>().DestroyMesh();
                         StartCoroutine(objMgr.wallDestroy(other.transform.parent.gameObject));
                     }
+
+                    playerEffect.KnockBackEffect();
                 }
                 playerStat.Init();
             }
@@ -76,6 +81,7 @@ public class PlayerCollision : MonoBehaviour
         if (other.tag is "HpItem")
         {
             playerStat.CurrentHp = playerStat.MaxHp;
+            playerEffect.HealEffect();
             Destroy(other.gameObject);
         }
 
@@ -86,6 +92,7 @@ public class PlayerCollision : MonoBehaviour
             {
                 // 토탈파워에 set하는 값은 플레이어 기존공격력에 x 하는 배율값
                 playerStat.TotalPower = itemObj.ItemPower;
+                playerEffect.PowerEffect();
                 Destroy(other.gameObject);
             }
         }

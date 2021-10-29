@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharactorStats : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class CharactorStats : MonoBehaviour
     private int power = 0;
     private int totalPower = 0;
 
+    private Slider HpBar;
+
     public int TotalPower
     {
         get => totalPower;
@@ -21,7 +24,6 @@ public class CharactorStats : MonoBehaviour
         }
     }
 
-    // maxHp는 첫 생성시 한번만 set - > set 할때 curHP도 같이 초기화
     public int MaxHp
     {
         get => maxHp;
@@ -50,6 +52,7 @@ public class CharactorStats : MonoBehaviour
 
     void Start()
     {
+        HpBar = GameObject.FindWithTag("PlayerStat").transform.GetChild(2).GetComponent<Slider>();
         MaxHp = 40;
         Init();
     }
@@ -59,9 +62,14 @@ public class CharactorStats : MonoBehaviour
         Power = 10;
         totalPower = power;
     }
-
     public void SetStat()
     {
 
+    }
+
+    private void Update()
+    {
+        float curHp = (float)currentHp / (float)MaxHp;
+       HpBar.value = Mathf.Lerp(HpBar.value, curHp, Time.deltaTime * 5f);
     }
 }

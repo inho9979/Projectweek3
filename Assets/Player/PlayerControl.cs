@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     private Rigidbody playerRigid;
     private Animator playerAni;
     private Touch touchFuc;
+    private PlayerEffect playerEffect;
 
     private float moveToX = 3f;
     private bool isMove;
@@ -62,6 +63,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         GameOver,
     }
     private MoveState state;
+    private MoveState beforeState;
     public MoveState State
     {
         get
@@ -70,6 +72,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         }
         set
         {
+            beforeState = state;
             state = value;
             switch (state)
             {
@@ -104,6 +107,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     {
         playerRigid = GetComponent<Rigidbody>();
         playerAni = GetComponent<Animator>();
+        playerEffect = GetComponent<PlayerEffect>();
         State = MoveState.Idle;
         isClear = false;
         isBonusRun = false;
@@ -118,8 +122,11 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             case InGameManager.InGameState.Tutorial:
                 State = MoveState.Idle;
                 break;
-            case InGameManager.InGameState.Play:
+            case InGameManager.InGameState.Start:
                 State = MoveState.Run;
+                break;
+            case InGameManager.InGameState.Play:
+                State = beforeState;
                 break;
             case InGameManager.InGameState.Pause:
                 State = MoveState.Idle;
@@ -138,7 +145,6 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     {
 
         playerAni.SetFloat("Speed", moveSpeed);
-        Debug.Log(moveSpeed);
         switch (State)
         {
             case MoveState.Idle:
@@ -264,8 +270,10 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     }
     private void PlayerFinishRun()
     {
+        playerEffect.FinishAuraEffect();
         var dir = transform.forward;
         timer += Time.deltaTime;
+
         // 2√  ¥Î±‚
         if (timer <= 2f)
             return;

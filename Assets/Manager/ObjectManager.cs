@@ -8,6 +8,8 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
     public GameObject bonusWallPrefab;
     public GameObject bonusStage;
     public GameObject[] itemPrefab;
+    public ParticleSystem powerAura;
+    public ParticleSystem healAura;
 
     private List<GameObject> wallList = new List<GameObject>();
     private List<GameObject> bonusWallList = new List<GameObject>();
@@ -34,7 +36,7 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
             case InGameManager.InGameState.Tutorial:
                 GameObject.FindWithTag("TutoObject").SetActive(true);
                 break;
-            case InGameManager.InGameState.Play:
+            case InGameManager.InGameState.Start:
                 GameObject.FindWithTag("TutoObject").SetActive(false);
                 WallGenerate(startPosZ, 20, 25, startWallCount);
                 ItemGenerate(startItemCount);
@@ -107,6 +109,9 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                     {
                         // 파워아이템
                         var tempItem = Instantiate(itemPrefab[0], itemPos2, Quaternion.identity);
+                        var tempAura = Instantiate(powerAura, tempItem.transform.position, Quaternion.identity);
+                        tempAura.transform.SetParent(tempItem.transform, true);
+                        tempAura.Play();
                         var itemStat = tempItem.GetComponent<ItemAbility>();
                         itemStat.SetAbility(4, false);
                     }
@@ -114,6 +119,8 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                     {
                         // 힐 아이템
                         var tempItem = Instantiate(itemPrefab[1], itemPos2, Quaternion.Euler(0f,180f,0f));
+                        var tempAura = Instantiate(healAura, tempItem.transform);
+                        tempAura.Play();
                         var itemStat = tempItem.GetComponent<ItemAbility>();
                         itemStat.SetAbility(0, true);
                     }

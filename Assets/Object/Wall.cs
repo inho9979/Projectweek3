@@ -48,7 +48,7 @@ public class Wall : MonoBehaviour
             mesh[i] = meshrender[i].GetComponent<MeshRenderer>();
         }
 
-        mesh[(int)weak].materials[0].color = Color.red;
+        mesh[(int)weak].materials[0].color = Color.green;
     }
 
     public void DestroyMesh()

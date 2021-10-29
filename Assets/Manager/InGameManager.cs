@@ -22,6 +22,7 @@ public class InGameManager : MonoBehaviour
     public enum InGameState
     {
         Tutorial,
+        Start,
         Play,
         Pause,
         Bonus,
@@ -42,10 +43,15 @@ public class InGameManager : MonoBehaviour
                     playerCtrlComponent.ChangeState(gameState);
                     objGenerateComponent.ChangeState(gameState);
                     break;
-                case InGameState.Play:
+                case InGameState.Start:
                     uiCtrlComponent.ChangeState(gameState);
                     playerCtrlComponent.ChangeState(gameState);
                     objGenerateComponent.ChangeState(gameState);
+                    break;
+                case InGameState.Play:
+                    uiCtrlComponent.ChangeState(gameState);
+                    playerCtrlComponent.ChangeState(gameState);
+                    Resume();
                     break;
                 case InGameState.Pause:
                     uiCtrlComponent.ChangeState(gameState);
@@ -95,7 +101,7 @@ public class InGameManager : MonoBehaviour
 
     public void GamePlay()
     {
-        GameState = InGameState.Play;
+        GameState = InGameState.Start;
     }
     public void ReStart()
     {
