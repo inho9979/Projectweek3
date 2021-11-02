@@ -85,22 +85,22 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         }
     }
 
-    public void BonusWallGenerate(float startPosZ, int Count)
-    {
-        var distanceSum = 0f;
-        var walldistance = 8f;
-        var wallPos = bonusWallPrefab.transform.position;
-        for (int i = 0; i < Count; i++)
-        {
-            distanceSum += walldistance;
-            var locate = startPosZ + distanceSum;
+    //public void BonusWallGenerate(float startPosZ, int Count)
+    //{
+    //    var distanceSum = 0f;
+    //    var walldistance = 8f;
+    //    var wallPos = bonusWallPrefab.transform.position;
+    //    for (int i = 0; i < Count; i++)
+    //    {
+    //        distanceSum += walldistance;
+    //        var locate = startPosZ + distanceSum;
 
-            var tempWall = Instantiate(bonusWallPrefab, new Vector3(wallPos.x, wallPos.y, locate), Quaternion.identity);
-            var wallPoint = tempWall.GetComponent<BonusWall>();
-            wallPoint.SetPoint((i+1) * 100);
-            bonusWallList.Add(tempWall);
-        }
-    }
+    //        var tempWall = Instantiate(bonusWallPrefab, new Vector3(wallPos.x, wallPos.y, locate), Quaternion.identity);
+    //        var wallPoint = tempWall.GetComponent<BonusWall>();
+    //        wallPoint.SetPoint((i+1) * 100);
+    //        bonusWallList.Add(tempWall);
+    //    }
+    //}
 
     public void ItemGenerate(int[] powerItem, int[] healItem)
     {
@@ -169,7 +169,38 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         var mesh = stage.transform.GetChild(0).GetComponent<MeshRenderer>();
         mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
 
-        BonusWallGenerate(stage.transform.position.z, 10);
+        var bonusWalls = stage.GetComponentsInChildren<BonusWall>();
+        Debug.Log(bonusWalls.Length);
+        for (int i=0; i<bonusWalls.Length; i++)
+        {
+            bonusWalls[i].SetPoint(i + 1);
+            var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
+            switch(i)
+            {
+                case 0: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                    break;
+                case 1: wallMesh.material.color = Color.yellow;
+                    break;
+                case 2: wallMesh.material.color = Color.green;
+                    break;
+                case 3: wallMesh.material.color = Color.blue;
+                    break;
+                case 4: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                    break;
+                case 5: wallMesh.material.color = Color.yellow;
+                    break;
+                case 6: wallMesh.material.color = Color.green;
+                    break;
+                case 7: wallMesh.material.color = Color.blue;
+                    break;
+                case 8: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                    break;
+                case 9: wallMesh.material.color = Color.yellow;
+                    break;
+            }
+
+        }
+        //BonusWallGenerate(stage.transform.position.z, 10);
         var bonusCount = InGameManager.instance.score.GetComponent<Score>();
         bonusCount.BonusCount = 10;
     }

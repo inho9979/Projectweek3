@@ -25,7 +25,7 @@ public class BonusWall : MonoBehaviour
         Point = pointt;
         var rectTr = transform.GetChild(0).GetComponent<RectTransform>();
         text = rectTr.GetComponentInChildren<Text>();
-        text.text = $"{point}";
+        text.text = $"X{point}";
     }
 
     void Update()

@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Timeline;
-using UnityEngine.Playables;
+
 
 public class InGameManager : MonoBehaviour
 {
@@ -14,13 +13,14 @@ public class InGameManager : MonoBehaviour
     public GameObject ui;
     public GameObject objectManager;
     public GameObject score;
-    public GameObject timeLine;
 
     private PlayerControl playerCtrlComponent;
     private ObjectManager objGenerateComponent;
     private Score scoreComponent;
     private InGameUImanager uiCtrlComponent;
     private Touch touchFuc;
+
+    public bool playerFinishTrigger = false;
 
     public enum InGameState
     {
@@ -94,12 +94,6 @@ public class InGameManager : MonoBehaviour
         GameState = InGameState.Tutorial;
     }
 
-    private void Start()
-    {
-        timeLine.GetComponent<PlayableDirector>().playOnAwake = false;
-        timeLine.SetActive(false);
-    }
-
     void Update()
     {
     }
@@ -124,15 +118,13 @@ public class InGameManager : MonoBehaviour
 
     public void Bonus()
     {
-        timeLine.SetActive(true);
-        timeLine.GetComponent<PlayableDirector>().playOnAwake = true;
     }
     // 게임 오버에 필요한 모든 동작들 실행
     public IEnumerator GameOver()
     {
         yield return new WaitForSeconds(1f);
-        //Pause();
         uiCtrlComponent.GameOverUI();
+        //Pause();
     }
 
     public void GameClear()

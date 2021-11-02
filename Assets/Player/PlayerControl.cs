@@ -274,9 +274,8 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     {
         playerEffect.FinishAuraEffect();
         var dir = transform.forward;
-        timer += Time.deltaTime;
-        // 2√  ¥Î±‚
-        if (timer <= 2f)
+
+        if (InGameManager.instance.playerFinishTrigger == false)
             return;
         if (InGameManager.instance.score.GetComponent<Score>().BonusCount <= 0)
             isBonusRun = false;
