@@ -44,7 +44,19 @@ public class PlayerEffect : MonoBehaviour
 
     public void FinishAuraEffect()
     {
-        finishAuraEffect.Play();
+        if (finishAuraEffect != null)
+        {
+            finishAuraEffect.Play();
+        }
+    }
+
+    public void FinishAuraEffectOff()
+    {
+        if (finishAuraEffect != null)
+        {
+            finishAuraEffect.Stop();
+            Destroy(finishAuraEffect);
+        }
     }
 
     //void Update()

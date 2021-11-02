@@ -17,6 +17,7 @@ TagManager:
   - PlayerStat
   - TutoObject
   - Mesh
+  - VirCam
   layers:
   - Default
   - TransparentFX

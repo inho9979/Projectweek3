@@ -20,6 +20,8 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
 
     private int tutoStepNum = 0;
     private bool isTutorial = false;
+
+    private InGameManager.InGameState curState;
     public bool IsTutorial
     {
         get => isTutorial;
@@ -59,6 +61,7 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
 
     public void ChangeState(InGameManager.InGameState state)
     {
+        curState = state;
         switch (state)
         {
             case InGameManager.InGameState.Tutorial:
@@ -76,6 +79,8 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
                 pauseUI.SetActive(true);
                 break;
             case InGameManager.InGameState.Bonus:
+                playerTxtUI[0].enabled = false;
+                playerTxtUI[1].enabled = false;
                 break;
             case InGameManager.InGameState.Clear:
                 GameClearUI();
@@ -87,7 +92,7 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     }
     void Update()
     {
-        //scoreTxt.text = $"Score: {scoreObj.ScorePoint}";
+
         playerTxtUI[0].text = $"HP: {playerStats.CurrentHp}";
         playerTxtUI[1].text = $"ATK: {playerStats.TotalPower}";
 

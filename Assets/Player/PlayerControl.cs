@@ -91,6 +91,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                     moveSpeed = Constants.playerBackSpeed;
                     break;
                 case MoveState.ClearMove:
+                    playerEffect.FinishAuraEffect();
                     var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
                     camera.CameraState = CameraMove.State.FinishLoad;
                     moveSpeed = Constants.playerWalkSpeed;
@@ -272,7 +273,6 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     }
     private void PlayerFinishRun()
     {
-        playerEffect.FinishAuraEffect();
         var dir = transform.forward;
 
         if (InGameManager.instance.playerFinishTrigger == false)
@@ -291,16 +291,22 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
             var distance = Vector3.Distance(transform.position, endPos);
             var enddir = (endPos - transform.position).normalized;
-            
+            playerEffect.FinishAuraEffectOff();
+
             if (distance >= 2f)
             {
+                
                 moveSpeed = 5f;
                 playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
             }
             else
             {
                 moveSpeed = 0f;
-                InGameManager.instance.GameState = InGameManager.InGameState.Clear;
+                var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+                camera.CameraState = CameraMove.State.Ending;
+
+                State = MoveState.Idle;
+                //InGameManager.instance.GameState = InGameManager.InGameState.Clear;
             }
         }
     }

@@ -64,6 +64,7 @@ public class PlayerCollision : MonoBehaviour
 
                     if (playerStat.CurrentHp <= 0)
                     {
+                        playerStat.CurrentHp = 0;
                         InGameManager.instance.GameState = InGameManager.InGameState.GameOver;
                     }
                     else
