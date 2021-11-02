@@ -91,6 +91,8 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                     moveSpeed = Constants.playerBackSpeed;
                     break;
                 case MoveState.ClearMove:
+                    var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+                    camera.CameraState = CameraMove.State.FinishLoad;
                     moveSpeed = Constants.playerWalkSpeed;
                     break;
                 case MoveState.End:
@@ -273,17 +275,16 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         playerEffect.FinishAuraEffect();
         var dir = transform.forward;
         timer += Time.deltaTime;
-
         // 2초 대기
         if (timer <= 2f)
             return;
-
-        var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
-        camera.CameraState = CameraMove.State.FinishLoad;
+        if (InGameManager.instance.score.GetComponent<Score>().BonusCount <= 0)
+            isBonusRun = false;
 
         if(isBonusRun)
         {
-            moveSpeed = Constants.playerRunSpeed;
+            // 마지막 달리기는 더 빠르게
+            moveSpeed = 16f;
             playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
         }
         else
@@ -294,7 +295,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             
             if (distance >= 2f)
             {
-                moveSpeed = Constants.playerWalkSpeed;
+                moveSpeed = 5f;
                 playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
             }
             else

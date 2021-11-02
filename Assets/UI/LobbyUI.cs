@@ -17,7 +17,7 @@ public class LobbyUI : GenericUI
 
     public void GameStart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
     public void Option()
     {

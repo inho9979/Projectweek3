@@ -87,8 +87,7 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     }
     void Update()
     {
-        scoreTxt.text = $"Score: {scoreObj.ScorePoint}";
-
+        //scoreTxt.text = $"Score: {scoreObj.ScorePoint}";
         playerTxtUI[0].text = $"HP: {playerStats.CurrentHp}";
         playerTxtUI[1].text = $"ATK: {playerStats.TotalPower}";
 
@@ -138,6 +137,12 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     public void ReStartButton()
     {
         InGameManager.instance.ReStart();
+    }
+
+    public void SelectStageButton()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(2);
     }
 
     public void LobbyButton()

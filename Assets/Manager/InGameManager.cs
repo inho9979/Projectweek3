@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Timeline;
+using UnityEngine.Playables;
 
 public class InGameManager : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class InGameManager : MonoBehaviour
     public GameObject ui;
     public GameObject objectManager;
     public GameObject score;
+    public GameObject timeLine;
 
     private PlayerControl playerCtrlComponent;
     private ObjectManager objGenerateComponent;
@@ -63,6 +66,7 @@ public class InGameManager : MonoBehaviour
                     uiCtrlComponent.ChangeState(gameState);
                     playerCtrlComponent.ChangeState(gameState);
                     objGenerateComponent.ChangeState(gameState);
+                    Bonus();
                     break;
                 case InGameState.Clear:
                     uiCtrlComponent.ChangeState(gameState);
@@ -92,11 +96,12 @@ public class InGameManager : MonoBehaviour
 
     private void Start()
     {
+        timeLine.GetComponent<PlayableDirector>().playOnAwake = false;
+        timeLine.SetActive(false);
     }
 
     void Update()
     {
-        BonusStateCheck();
     }
 
     public void GamePlay()
@@ -119,6 +124,8 @@ public class InGameManager : MonoBehaviour
 
     public void Bonus()
     {
+        timeLine.SetActive(true);
+        timeLine.GetComponent<PlayableDirector>().playOnAwake = true;
     }
     // 게임 오버에 필요한 모든 동작들 실행
     public IEnumerator GameOver()
@@ -132,9 +139,9 @@ public class InGameManager : MonoBehaviour
     {
     }
 
-    public void BonusStateCheck()
-    {
-        if (scoreComponent.BonusCount <= 0)
-            playerCtrlComponent.IsBonusRun = false;
-    }
+    //public void BonusStateCheck()
+    //{
+    //    if (scoreComponent.BonusCount <= 0)
+    //        playerCtrlComponent.IsBonusRun = false;
+    //}
 }

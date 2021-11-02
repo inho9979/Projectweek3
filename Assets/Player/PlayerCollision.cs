@@ -9,7 +9,7 @@ public class PlayerCollision : MonoBehaviour
     private Animator playerAni;
     private PlayerControl playerCtrl;
     private PlayerEffect playerEffect;
-
+    private IngameUI ingameUI;
     void Start()
     {
         playerStat = gameObject.GetComponent<CharactorStats>();
@@ -17,6 +17,9 @@ public class PlayerCollision : MonoBehaviour
         playerCtrl = gameObject.GetComponent<PlayerControl>();
         getScore = InGameManager.instance.score.GetComponent<Score>();
         playerEffect = gameObject.GetComponent<PlayerEffect>();
+
+        var UImgr = InGameManager.instance.ui.GetComponent<InGameUImanager>();
+        ingameUI = UImgr.ingameUI.GetComponent<IngameUI>();
     }
 
     void Update()
@@ -38,6 +41,10 @@ public class PlayerCollision : MonoBehaviour
                 if (objStat.WallHp <= playerStat.TotalPower)
                 {
                     getScore.ScoreUp();
+                    getScore.CurCombo++;
+                    ingameUI.ComboHit();
+                    Debug.Log($"{getScore.CurCombo}, {getScore.MaxCombo}");
+
                     var frags = Physics.OverlapSphere(transform.position, 10f);
                     foreach (var obj in frags)
                     {
@@ -53,6 +60,7 @@ public class PlayerCollision : MonoBehaviour
                     var damage = objStat.WallHp - playerStat.TotalPower;
                     playerStat.CurrentHp -= damage;
                     Debug.Log($"{damage} , {playerStat.CurrentHp}");
+                    getScore.CurCombo = 0;
 
                     if (playerStat.CurrentHp <= 0)
                     {
@@ -74,7 +82,8 @@ public class PlayerCollision : MonoBehaviour
 
                     playerEffect.KnockBackEffect();
                 }
-                playerStat.Init();
+                // 파워 아이템으로 올라간것 다시 초기화
+                playerStat.powerInit();
             }
         }
 
@@ -100,14 +109,12 @@ public class PlayerCollision : MonoBehaviour
         if(other.tag is "BonusWall")
         {
             playerAni.SetTrigger("Punch");
-            getScore.ScoreUp();
             getScore.BonusCount -= 1;
             var frags = Physics.OverlapSphere(transform.position, 5f);
             foreach (var obj in frags)
             {
                 obj.gameObject.SendMessage("Damage", 1000f, SendMessageOptions.DontRequireReceiver);
             }
-            //Destroy(other.gameObject);
         }
 
         if(other.tag is "Wall")

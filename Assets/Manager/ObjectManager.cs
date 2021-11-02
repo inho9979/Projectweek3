@@ -14,11 +14,16 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
     private List<GameObject> wallList = new List<GameObject>();
     private List<GameObject> bonusWallList = new List<GameObject>();
 
-    public int startItemCount = 3;
-    public int startWallCount = 6;
     private float startPosZ;
-
     private float timer = 0f;
+
+    private int wallDistance;
+
+    private int wallCount;
+    private int[] ATKItemCount = new int[2];
+    private int[] HealItemCount = new int[2];
+    private int clearGold;
+
     private void Awake()
     {
     }
@@ -26,6 +31,17 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
     void Start()
     {
         startPosZ = InGameManager.instance.player.transform.position.z;
+
+        wallCount = GameManager.Instance.mapStageInfo.WallCount;
+        //normalHp = GameManager.Instance.mapStageInfo.NormalHp;
+        //weakHp = GameManager.Instance.mapStageInfo.WeakHp;
+        ATKItemCount[0] = GameManager.Instance.mapStageInfo.atkPackCount[0];
+        ATKItemCount[1] = GameManager.Instance.mapStageInfo.atkPackCount[1];
+        HealItemCount[0] = GameManager.Instance.mapStageInfo.healPackCount[0];
+        HealItemCount[1] = GameManager.Instance.mapStageInfo.healPackCount[1];
+        clearGold = GameManager.Instance.mapStageInfo.ClearGold;
+
+        wallDistance = 20;
     }
 
 
@@ -38,8 +54,8 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                 break;
             case InGameManager.InGameState.Start:
                 GameObject.FindWithTag("TutoObject").SetActive(false);
-                WallGenerate(startPosZ, 20, 25, startWallCount);
-                ItemGenerate(startItemCount);
+                WallGenerate(startPosZ, wallDistance, wallCount);
+                ItemGenerate(ATKItemCount, HealItemCount);
                 foreach(var obj in wallList)
                 {
                     obj.GetComponent<Wall>().setMesh();
@@ -56,15 +72,13 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                 break;
         }
     }
-        public void WallGenerate(float startPosZ, int startRange, int endRange, int Count)
+    public void WallGenerate(float startPosZ, int wallDistance, int Count)
     {
         var distanceSum = 0f;
-        var walldistance = 0f;
         var wallPos = wallPrefab.transform.position;
         for (int i = 0; i < Count; i++)
         {
-            walldistance = Random.Range(startRange, endRange);
-            distanceSum += walldistance;
+            distanceSum += wallDistance;
             var locate = startPosZ + distanceSum;
             var tempWall = Instantiate(wallPrefab, new Vector3(wallPos.x, wallPos.y, locate), Quaternion.identity);
             wallList.Add(tempWall);
@@ -88,11 +102,14 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         }
     }
 
-    public void ItemGenerate(int ItemCount)
+    public void ItemGenerate(int[] powerItem, int[] healItem)
     {
-        var count = startItemCount;
         List<Vector3> posList = new List<Vector3>();
-        while (count > 0)
+
+        var powerItemCount = Random.Range(powerItem[0], powerItem[1] + 1);
+        var healItemCount = Random.Range(healItem[0], healItem[1] + 1);
+
+        while(powerItemCount > 0)
         {
             foreach (var obj in wallList)
             {
@@ -105,26 +122,40 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                 var perCent = Random.Range(0, 100);
                 if (perCent < 10)
                 {
-                    if (perCent > 4)
-                    {
-                        // 파워아이템
-                        var tempItem = Instantiate(itemPrefab[0], itemPos2, Quaternion.identity);
-                        var tempAura = Instantiate(powerAura, tempItem.transform.position, Quaternion.identity);
-                        tempAura.transform.SetParent(tempItem.transform, true);
-                        tempAura.Play();
-                        var itemStat = tempItem.GetComponent<ItemAbility>();
-                        itemStat.SetAbility(4, false);
-                    }
-                    else
-                    {
-                        // 힐 아이템
-                        var tempItem = Instantiate(itemPrefab[1], itemPos2, Quaternion.Euler(0f,180f,0f));
-                        var tempAura = Instantiate(healAura, tempItem.transform);
-                        tempAura.Play();
-                        var itemStat = tempItem.GetComponent<ItemAbility>();
-                        itemStat.SetAbility(0, true);
-                    }
-                    count--;
+                    // 파워아이템
+                    var tempItem = Instantiate(itemPrefab[0], itemPos2, Quaternion.identity);
+                    var tempAura = Instantiate(powerAura, tempItem.transform.position, Quaternion.identity);
+                    tempAura.transform.SetParent(tempItem.transform, true);
+                    tempAura.Play();
+                    var itemStat = tempItem.GetComponent<ItemAbility>();
+                    itemStat.SetAbility(4, false);
+
+                    powerItemCount--;
+                    posList.Add(itemPos2);
+                }
+            }
+        }
+        while (healItemCount > 0)
+        {
+            foreach (var obj in wallList)
+            {
+                var randomPos = Random.Range(-1, 2);
+                var itemPos2 = new Vector3(randomPos * 3f, 1f, obj.transform.position.z - 13);
+                if (posList.Contains(itemPos2))
+                {
+                    continue;
+                }
+                var perCent = Random.Range(0, 100);
+                if (perCent < 10)
+                {
+                    // 힐 아이템
+                    var tempItem = Instantiate(itemPrefab[1], itemPos2, Quaternion.Euler(0f, 180f, 0f));
+                    var tempAura = Instantiate(healAura, tempItem.transform);
+                    tempAura.Play();
+                    var itemStat = tempItem.GetComponent<ItemAbility>();
+                    itemStat.SetAbility(0, true);
+
+                    healItemCount--;
                     posList.Add(itemPos2);
                 }
             }
@@ -153,3 +184,43 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
 
     }
 }
+
+
+
+//while (count > 0)
+//{
+//    foreach (var obj in wallList)
+//    {
+//        var randomPos = Random.Range(-1, 2);
+//        var itemPos2 = new Vector3(randomPos * 3f, 1f, obj.transform.position.z - 13);
+//        if (posList.Contains(itemPos2))
+//        {
+//            continue;
+//        }
+//        var perCent = Random.Range(0, 100);
+//        if (perCent < 10)
+//        {
+//            if (perCent > 4)
+//            {
+//                // 파워아이템
+//                var tempItem = Instantiate(itemPrefab[0], itemPos2, Quaternion.identity);
+//                var tempAura = Instantiate(powerAura, tempItem.transform.position, Quaternion.identity);
+//                tempAura.transform.SetParent(tempItem.transform, true);
+//                tempAura.Play();
+//                var itemStat = tempItem.GetComponent<ItemAbility>();
+//                itemStat.SetAbility(4, false);
+//            }
+//            else
+//            {
+//                // 힐 아이템
+//                var tempItem = Instantiate(itemPrefab[1], itemPos2, Quaternion.Euler(0f,180f,0f));
+//                var tempAura = Instantiate(healAura, tempItem.transform);
+//                tempAura.Play();
+//                var itemStat = tempItem.GetComponent<ItemAbility>();
+//                itemStat.SetAbility(0, true);
+//            }
+//            count--;
+//            posList.Add(itemPos2);
+//        }
+//    }
+//}
