@@ -41,8 +41,6 @@ public class SoundManager : MonoBehaviour
     void Update()
     {
         bgSound.volume = GameManager.Instance.BGMVolume;
-        Debug.Log(GameManager.Instance.BGMVolume);
-
     }
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
@@ -67,7 +65,6 @@ public class SoundManager : MonoBehaviour
         AudioSource audiosource = go.AddComponent<AudioSource>();
         audiosource.clip = clip;
         audiosource.volume = GameManager.Instance.EffectVolume;
-        Debug.Log(GameManager.Instance.EffectVolume);
         audiosource.Play();
 
         Destroy(go, clip.length);

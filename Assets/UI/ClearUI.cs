@@ -17,8 +17,8 @@ public class ClearUI : MonoBehaviour
 
     void Update()
     {
-        coinText.text = $"{scoreObj.GetCoin}";
-        baseGold.text = $"BaseGold: {scoreObj.GetCoin / scoreObj.MaxCombo}";
+        coinText.text = $"{scoreObj.Coin}";
+        baseGold.text = $"BaseGold: {GameManager.Instance.mapStageInfo.ClearGold}";
         maxComboText.text = $"Combo Bonus: x{scoreObj.MaxCombo}";
     }
 }

@@ -9,6 +9,7 @@ public class IngameUI : MonoBehaviour
     public Text scoreText;
     public Text comboText;
     public Text comboCountText;
+    public Text stageText;
     private Score scoreObj;
     private Color curColor;
 
@@ -27,6 +28,7 @@ public class IngameUI : MonoBehaviour
     {
         scoreText.text = $"{scoreObj.ScorePoint}";
         comboCountText.text = $"X{scoreObj.CurCombo}";
+        stageText.text = $"STAGE: {GameManager.Instance.mapStageInfo.StageLv}";
     }
 
     public void ComboHit()
@@ -40,7 +42,7 @@ public class IngameUI : MonoBehaviour
             {
                 StopCoroutine(coRoutine);
             }
-            coRoutine = StartCoroutine(CoFade(2f));
+            coRoutine = StartCoroutine(CoFade(1f));
         }
     }
 
@@ -50,9 +52,9 @@ public class IngameUI : MonoBehaviour
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            var clearColor = new Color(comboText.color.r, comboText.color.g, comboText.color.b, 0f);
-            comboText.color = Color.Lerp(comboText.color, clearColor, timer / duration);
-            comboCountText.color = Color.Lerp(comboCountText.color, clearColor, timer / duration);
+            var clearColor = new Color(comboText.color.r, comboText.color.g, comboText.color.b, 0.2f);
+            comboText.color = Color.Lerp(comboText.color, clearColor, Time.deltaTime * 2f);
+            comboCountText.color = Color.Lerp(comboCountText.color, clearColor, Time.deltaTime * 2f);
             yield return null;
         }
         comboCountText.enabled = false;

@@ -16,6 +16,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     private Animator playerAni;
     private Touch touchFuc;
     private PlayerEffect playerEffect;
+    private Score getScore;
 
     private float moveToX = 3f;
     private bool isMove;
@@ -116,6 +117,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         isBonusRun = false;
         transform.position = new Vector3(0f, 0f, -100f);
         touchFuc = GameObject.FindWithTag("Touch").GetComponent<Touch>();
+        getScore = InGameManager.instance.score.GetComponent<Score>();
     }
 
     public void ChangeState(InGameManager.InGameState state)
@@ -180,13 +182,16 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     {
         var moveDir = transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
-        //var Swipevec = touchFuc.Swipe();
-        //if (Swipevec != Vector2.zero)
-        //{
-        //    Debug.Log("스와이프");
-        //    moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
-        //    State = MoveState.SideRun;
-        //}
+#if UNITY_ANDROID
+        var Swipevec = touchFuc.Swipe();
+        if (Swipevec != Vector2.zero)
+        {
+            Debug.Log("스와이프");
+            moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
+            State = MoveState.SideRun;
+        }
+#endif
+#if UNITY_STANDALONE_WIN
         if (Input.GetMouseButton(0) && isMove == false)
         {
             Debug.Log("버튼클릭");
@@ -194,9 +199,9 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             moveDirect = pos.x > 0.5f ? MoveDirection.right : MoveDirection.left;
             State = MoveState.SideRun;
         }
+#endif
     }
-
-    private void PlayerSideRun()
+        private void PlayerSideRun()
     {
         // 좌측, 우측끝 예외처리
         if ((transform.position.x >= moveToX && moveDirect == MoveDirection.right)
@@ -287,27 +292,37 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             moveSpeed = 16f;
             playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
         }
+        // 보너스런 종료후 연출무빙
         else
         {
-            var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
-            var distance = Vector3.Distance(transform.position, endPos);
-            var enddir = (endPos - transform.position).normalized;
-            playerEffect.FinishAuraEffectOff();
-
-            if (distance >= 2f)
+            // 최대 콤보 달성시 동작
+            if (getScore.MaxCombo == GameManager.Instance.mapStageInfo.WallCount)
             {
-                
-                moveSpeed = 5f;
-                playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+                var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
+                var distance = Vector3.Distance(transform.position, endPos);
+                var enddir = (endPos - transform.position).normalized;
+                playerEffect.FinishAuraEffectOff();
+
+                if (distance >= 2f)
+                {
+
+                    moveSpeed = 5f;
+                    playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    moveSpeed = 0f;
+                    var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+                    camera.CameraState = CameraMove.State.Ending;
+
+                    State = MoveState.Idle;
+                }
             }
             else
             {
-                moveSpeed = 0f;
                 var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
                 camera.CameraState = CameraMove.State.Ending;
-
                 State = MoveState.Idle;
-                //InGameManager.instance.GameState = InGameManager.InGameState.Clear;
             }
         }
     }

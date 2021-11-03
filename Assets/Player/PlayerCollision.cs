@@ -49,13 +49,13 @@ public class PlayerCollision : MonoBehaviour
             {
                 if (objStat.WallHp <= playerStat.TotalPower)
                 {
-                    getScore.ScoreUp();
+                    getScore.ScoreUp(objStat.WallHp, playerStat.TotalPower);
                     getScore.CurCombo++;
                     ingameUI.ComboHit();
                     SoundManager.Instance.SFXPlay("WallCrush", crushSound);
                     SoundManager.Instance.SFXPlay("Attack", attackSound);
 
-                    Debug.Log($"{getScore.CurCombo}, {getScore.MaxCombo}");
+                    Debug.Log($"curCom: {getScore.CurCombo}, maxCom: {getScore.MaxCombo}");
 
                     var frags = Physics.OverlapSphere(transform.position, 10f);
                     foreach (var obj in frags)
@@ -71,7 +71,6 @@ public class PlayerCollision : MonoBehaviour
                 {
                     var damage = objStat.WallHp - playerStat.TotalPower;
                     playerStat.CurrentHp -= damage;
-                    Debug.Log($"{damage} , {playerStat.CurrentHp}");
                     getScore.CurCombo = 0;
                     SoundManager.Instance.SFXPlay("DontCrush", dontCrushSound);
                     SoundManager.Instance.SFXPlay("KnockBack", knockBackSound);

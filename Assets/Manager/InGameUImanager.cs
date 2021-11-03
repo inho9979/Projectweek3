@@ -98,8 +98,7 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     {
 
         playerTxtUI[0].text = $"HP: {playerStats.CurrentHp}";
-        playerTxtUI[1].text = $"ATK: {playerStats.TotalPower}";
-
+        playerTxtUI[1].text = $"POWER: {playerStats.TotalPower}";
         if (isTutorial)
         {
             Tutorial();

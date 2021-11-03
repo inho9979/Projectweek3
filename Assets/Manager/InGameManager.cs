@@ -72,6 +72,7 @@ public class InGameManager : MonoBehaviour
                     uiCtrlComponent.ChangeState(gameState);
                     playerCtrlComponent.ChangeState(gameState);
                     objGenerateComponent.ChangeState(gameState);
+                    GameClear();
                     break;
                 case InGameState.GameOver:
                     uiCtrlComponent.ChangeState(gameState);
@@ -122,9 +123,33 @@ public class InGameManager : MonoBehaviour
         uiCtrlComponent.GameOverUI();
         //Pause();
     }
-
+    // 게임 클리어시
     public void GameClear()
     {
+        scoreComponent.SetCoin();
+
+        GameManager.Instance.playerStatInfo.Gold += scoreComponent.Coin;
+
+        if(GameManager.Instance.mapStageInfo.LimitStageLv == GameManager.Instance.mapStageInfo.StageLv)
+        {
+            if (GameManager.Instance.mapStageInfo.LimitStageLv < GameManager.Instance.mapStageInfo.MaxStageLv)
+            {
+                GameManager.Instance.mapStageInfo.LimitStageLv++;
+            }
+        }
+
+        if (GameManager.Instance.highstScoreInfo < scoreComponent.ScorePoint)
+            GameManager.Instance.highstScoreInfo = scoreComponent.ScorePoint;
+
+        if(GameManager.Instance.clearStageInfo < GameManager.Instance.mapStageInfo.LimitStageLv)
+        {
+            GameManager.Instance.clearStageInfo = GameManager.Instance.mapStageInfo.LimitStageLv;
+        }
+
+        if(GameManager.Instance.maxComboInfo < scoreComponent.MaxCombo)
+        {
+            GameManager.Instance.maxComboInfo = scoreComponent.MaxCombo;
+        }
     }
 
     //public void BonusStateCheck()

@@ -12,6 +12,7 @@ public class SelectStageUI : MonoBehaviour
     private MapStageData mapStageData;
     private Text[] textSet;
 
+    public AudioClip buttonClick;
     // textSet 0: StatTxt, 1: -Text, 2: +Text, 3: StageNumTxt
     // 4: CoinTxt, 5: AtkLvTxt, 6: MoneyTxt
 
@@ -37,25 +38,26 @@ public class SelectStageUI : MonoBehaviour
 
     public void ExpUpButton()
     {
-        // 20을 추가해서 더해주는동작 프로퍼티!
-        //playerStat.CurExp = 20;
+        SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
         playerStat.LevelUp();
-
     }
 
     public void StartStage()
     {
+        SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
         SceneManager.LoadScene(0);
     }
 
     public void BackButton()
     {
+        SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
         SceneManager.LoadScene(1);
     }
 
     public void PlusButton()
     {
-        if(mapStageData.LimitStageLv > mapStageData.StageLv)
+        SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
+        if (mapStageData.LimitStageLv > mapStageData.StageLv)
         {
             mapStageData.StageLv++;
             mapStageData.SetStageLv(mapStageData.StageLv);
@@ -64,7 +66,8 @@ public class SelectStageUI : MonoBehaviour
 
     public void MinusButton()
     {
-        if(mapStageData.StageLv > 1)
+        SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
+        if (mapStageData.StageLv > 1)
         {
             mapStageData.StageLv--;
             mapStageData.SetStageLv(mapStageData.StageLv);

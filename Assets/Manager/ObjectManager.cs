@@ -13,8 +13,8 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
     public ParticleSystem healAura;
 
     private GameObject tutoWall;
-    private List<GameObject> wallList = new List<GameObject>();
-    private List<GameObject> bonusWallList = new List<GameObject>();
+    public List<GameObject> wallList = new List<GameObject>();
+    public List<GameObject> bonusWallList = new List<GameObject>();
 
     private float startPosZ;
     private float timer = 0f;
@@ -35,8 +35,7 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         startPosZ = InGameManager.instance.player.transform.position.z;
 
         wallCount = GameManager.Instance.mapStageInfo.WallCount;
-        //normalHp = GameManager.Instance.mapStageInfo.NormalHp;
-        //weakHp = GameManager.Instance.mapStageInfo.WeakHp;
+
         ATKItemCount[0] = GameManager.Instance.mapStageInfo.atkPackCount[0];
         ATKItemCount[1] = GameManager.Instance.mapStageInfo.atkPackCount[1];
         HealItemCount[0] = GameManager.Instance.mapStageInfo.healPackCount[0];
@@ -177,6 +176,7 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         for (int i=0; i<bonusWalls.Length; i++)
         {
             bonusWalls[i].SetPoint(i + 1);
+            bonusWallList.Add(bonusWalls[i].gameObject);
             var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
             switch(i)
             {
@@ -204,8 +204,8 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
 
         }
         //BonusWallGenerate(stage.transform.position.z, 10);
-        var bonusCount = InGameManager.instance.score.GetComponent<Score>();
-        bonusCount.BonusCount = 10;
+        var scoreObj = InGameManager.instance.score.GetComponent<Score>();
+        scoreObj.BonusCount = scoreObj.MaxCombo;
     }
 
     public IEnumerator wallDestroy(GameObject wall)

@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     public float EffectVolume;
     public PlayerStatData playerStatInfo;
     public MapStageData mapStageInfo;
+    public int maxComboInfo;
+    public int highstScoreInfo;
+    public int clearStageInfo;
+
     //public int sceneNum = -1;
     private void Awake()
     {

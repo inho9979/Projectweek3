@@ -7,7 +7,7 @@ public class Score : MonoBehaviour
     private int scorePoint = 0;
     private int maxCombo = 1;
     private int curCombo = 0;
-    private int getCoin = 0;
+    private int coin = 0;
     private int bonusCount;
 
     private MapStageData stageData;
@@ -26,12 +26,12 @@ public class Score : MonoBehaviour
         }
     }
 
-    public int GetCoin
+    public int Coin
     {
-        get => getCoin;
+        get => coin;
         set
         {
-            getCoin = value;
+            coin = value;
         }
     }
 
@@ -65,9 +65,18 @@ public class Score : MonoBehaviour
             maxCombo = curCombo;
     }
 
-    public void ScoreUp()
+    public void ScoreUp(int wallHp, int playerAtk)
     {
-        scorePoint += (stageData.ClearGold * 10)/stageData.WallCount;
-        getCoin += (stageData.ClearGold) / stageData.WallCount;
+        Debug.Log(wallHp);
+        var attackPoint = wallHp - (wallHp - playerAtk) * -1;
+        if (attackPoint <= 0)
+            attackPoint = 1;
+        scorePoint += (int)(wallHp + ((attackPoint) / 2 + 10) * (curCombo * 1.15));
+        //scorePoint += (stageData.ClearGold * 10)/stageData.WallCount;
+    }
+
+    public void SetCoin()
+    {
+        coin = (stageData.ClearGold * maxCombo);
     }
 }

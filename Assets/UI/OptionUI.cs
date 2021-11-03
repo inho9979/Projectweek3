@@ -7,6 +7,8 @@ public class OptionUI : GenericUI
 {
     public AudioClip clip;
     private Slider[] volumeSlider;
+
+    public Text[] recordTexts;
     void Start()
     {
         volumeSlider = new Slider[2];
@@ -18,7 +20,9 @@ public class OptionUI : GenericUI
 
     void Update()
     {
-        
+        recordTexts[0].text = $"highest score: {GameManager.Instance.highstScoreInfo}";
+        recordTexts[1].text = $"Clear Stage: {GameManager.Instance.clearStageInfo}";
+        recordTexts[2].text = $"Max combo: {GameManager.Instance.maxComboInfo}";
     }
     public override void Open()
     {

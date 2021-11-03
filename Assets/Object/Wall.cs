@@ -13,7 +13,6 @@ public class Wall : MonoBehaviour
     public Material material;
     private CollisionPoints[] blockPoint;
     private WeakPoint weak;
-    private WeakPoint normal;
     private MeshRenderer[] mesh = new MeshRenderer[3];
 
     private int weakHp;
@@ -26,10 +25,6 @@ public class Wall : MonoBehaviour
 
         blockPoint = new CollisionPoints[3];
         weak = (WeakPoint)Random.Range(0, 3);
-        if (weak == WeakPoint.center)
-            normal = (WeakPoint)(2 * Random.Range(0, 2));
-        else
-            normal = WeakPoint.center;
 
         for (int i = 0; i < 3; i++)
         {
@@ -57,7 +52,12 @@ public class Wall : MonoBehaviour
         }
 
         mesh[(int)weak].materials[0].color = Color.green;
-        mesh[(int)normal].materials[0].color = Color.blue;
+        for(int i=0; i<3; i++)
+        {
+            if (i == (int)weak) continue;
+            mesh[i].materials[0].color = new Color(51f / 255f, 85f / 255f, 1f, 1f);
+        }
+
     }
 
     public void DestroyMesh()
@@ -76,13 +76,9 @@ public class Wall : MonoBehaviour
             {
                 stats.WallHp = weakHp;
             }
-            else if (i == (int)normal)
-            {
-                stats.WallHp = normalHp;
-            }
             else
             {
-                stats.WallHp = (int)(normalHp * 2.5);
+                stats.WallHp = normalHp;
             }
         }
     }
