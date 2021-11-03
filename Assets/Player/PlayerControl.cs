@@ -268,6 +268,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         if(distance <= 3f)
         {
             State = MoveState.End;
+            SoundManager.Instance.BgSoundPlay(SoundManager.Instance.finishBgm);
             isBonusRun = true;
         }
     }

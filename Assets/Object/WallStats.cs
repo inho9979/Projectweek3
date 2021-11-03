@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallStats : MonoBehaviour
 {
 
-    private int wallHp = 1;
+    private int wallHp = 10;
     public int WallHp
     {
         get => wallHp;

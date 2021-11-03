@@ -98,10 +98,6 @@ public class InGameManager : MonoBehaviour
     {
     }
 
-    public void GamePlay()
-    {
-        GameState = InGameState.Start;
-    }
     public void ReStart()
     {
         Time.timeScale = 1f;

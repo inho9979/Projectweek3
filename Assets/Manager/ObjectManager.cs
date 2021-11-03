@@ -7,10 +7,12 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
     public GameObject wallPrefab;
     public GameObject bonusWallPrefab;
     public GameObject bonusStage;
+    public GameObject tutoWallPrefab;
     public GameObject[] itemPrefab;
     public ParticleSystem powerAura;
     public ParticleSystem healAura;
 
+    private GameObject tutoWall;
     private List<GameObject> wallList = new List<GameObject>();
     private List<GameObject> bonusWallList = new List<GameObject>();
 
@@ -50,9 +52,10 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         switch (state)
         {
             case InGameManager.InGameState.Tutorial:
-                GameObject.FindWithTag("TutoObject").SetActive(true);
+                tutoWall = Instantiate(tutoWallPrefab);
                 break;
             case InGameManager.InGameState.Start:
+                Destroy(tutoWall);
                 GameObject.FindWithTag("TutoObject").SetActive(false);
                 WallGenerate(startPosZ, wallDistance, wallCount);
                 ItemGenerate(ATKItemCount, HealItemCount);

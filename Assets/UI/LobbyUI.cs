@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LobbyUI : GenericUI
 {
+    public AudioClip clip;
+
     void Start()
     {
         
@@ -17,14 +19,17 @@ public class LobbyUI : GenericUI
 
     public void GameStart()
     {
+        SoundManager.Instance.SFXPlay("GameStartBtn", clip);
+        LobbyUImanager.Instance.Open(Windows.Option);
         SceneManager.LoadScene(2);
     }
     public void Option()
     {
+        SoundManager.Instance.SFXPlay("OptionBtn", clip);
         LobbyUImanager.Instance.Open(Windows.Option);
     }
-    public void Explain()
+    public void Rule()
     {
-
+        SoundManager.Instance.SFXPlay("RuleBtn", clip);
     }
 }

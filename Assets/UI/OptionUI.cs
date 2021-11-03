@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class OptionUI : GenericUI
 {
-
+    public AudioClip clip;
     private Slider[] volumeSlider;
     void Start()
     {
         volumeSlider = new Slider[2];
         volumeSlider = gameObject.GetComponentsInChildren<Slider>();
+
+        volumeSlider[0].value = GameManager.Instance.BGMVolume;
+        volumeSlider[1].value = GameManager.Instance.EffectVolume;
     }
 
     void Update()
@@ -24,6 +27,7 @@ public class OptionUI : GenericUI
 
     public void Exit()
     {
+        SoundManager.Instance.SFXPlay("OptionExit", clip);
         LobbyUImanager.Instance.Open(Windows.Start);
     }
 
@@ -34,6 +38,6 @@ public class OptionUI : GenericUI
 
     public void EffectVolumeChange()
     {
-        GameManager.Instance.BGMVolume = volumeSlider[1].value;
+        GameManager.Instance.EffectVolume = volumeSlider[1].value;
     }
 }

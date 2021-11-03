@@ -10,6 +10,15 @@ public class PlayerCollision : MonoBehaviour
     private PlayerControl playerCtrl;
     private PlayerEffect playerEffect;
     private IngameUI ingameUI;
+
+    public AudioClip crushSound;
+    public AudioClip attackSound;
+    public AudioClip dontCrushSound;
+    public AudioClip knockBackSound;
+    public AudioClip getPower;
+    public AudioClip getHeal;
+    public AudioClip gameOver;
+    public AudioClip finishCrush;
     void Start()
     {
         playerStat = gameObject.GetComponent<CharactorStats>();
@@ -43,6 +52,9 @@ public class PlayerCollision : MonoBehaviour
                     getScore.ScoreUp();
                     getScore.CurCombo++;
                     ingameUI.ComboHit();
+                    SoundManager.Instance.SFXPlay("WallCrush", crushSound);
+                    SoundManager.Instance.SFXPlay("Attack", attackSound);
+
                     Debug.Log($"{getScore.CurCombo}, {getScore.MaxCombo}");
 
                     var frags = Physics.OverlapSphere(transform.position, 10f);
@@ -61,9 +73,12 @@ public class PlayerCollision : MonoBehaviour
                     playerStat.CurrentHp -= damage;
                     Debug.Log($"{damage} , {playerStat.CurrentHp}");
                     getScore.CurCombo = 0;
+                    SoundManager.Instance.SFXPlay("DontCrush", dontCrushSound);
+                    SoundManager.Instance.SFXPlay("KnockBack", knockBackSound);
 
                     if (playerStat.CurrentHp <= 0)
                     {
+                        SoundManager.Instance.SFXPlay("GameOver", gameOver);
                         playerStat.CurrentHp = 0;
                         InGameManager.instance.GameState = InGameManager.InGameState.GameOver;
                     }
@@ -92,6 +107,7 @@ public class PlayerCollision : MonoBehaviour
         {
             playerStat.CurrentHp = playerStat.MaxHp;
             playerEffect.HealEffect();
+            SoundManager.Instance.SFXPlay("HealItem", getHeal);
             Destroy(other.gameObject);
         }
 
@@ -103,12 +119,14 @@ public class PlayerCollision : MonoBehaviour
                 // 토탈파워에 set하는 값은 플레이어 기존공격력에 x 하는 배율값
                 playerStat.TotalPower = itemObj.ItemPower;
                 playerEffect.PowerEffect();
+                SoundManager.Instance.SFXPlay("PowerItem", getPower);
                 Destroy(other.gameObject);
             }
         }
 
         if(other.tag is "BonusWall")
         {
+            SoundManager.Instance.SFXPlay("FinishCrush", finishCrush);
             playerAni.SetTrigger("Punch");
             getScore.BonusCount -= 1;
             var frags = Physics.OverlapSphere(transform.position, 5f);

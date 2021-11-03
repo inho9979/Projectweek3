@@ -21,6 +21,10 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     private int tutoStepNum = 0;
     private bool isTutorial = false;
 
+    public AudioClip startClearBtn;
+    public AudioClip etcButton;
+    public AudioClip clearSound;
+
     private InGameManager.InGameState curState;
     public bool IsTutorial
     {
@@ -129,29 +133,40 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
         gameClearUI.SetActive(false);
     }
 
+    public void StartButton()
+    {
+        SoundManager.Instance.SFXPlay("StartBtn", startClearBtn);
+        InGameManager.instance.GameState = InGameManager.InGameState.Start;
+    }
+
     public void PauseButton()
     {
+        SoundManager.Instance.SFXPlay("PauseBtn", etcButton);
         InGameManager.instance.GameState = InGameManager.InGameState.Pause;
     }
 
     public void ResumeButton()
     {
+        SoundManager.Instance.SFXPlay("PauseBtn", etcButton);
         InGameManager.instance.GameState = InGameManager.InGameState.Play;
     }
 
     public void ReStartButton()
     {
+        SoundManager.Instance.SFXPlay("PauseBtn", etcButton);
         InGameManager.instance.ReStart();
     }
 
     public void SelectStageButton()
     {
+        SoundManager.Instance.SFXPlay("ClearBtn", startClearBtn);
         Time.timeScale = 1f;
         SceneManager.LoadScene(2);
     }
 
     public void LobbyButton()
     {
+        SoundManager.Instance.SFXPlay("ClearBtn", startClearBtn);
         Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }
@@ -160,11 +175,13 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     {
         ingameUI.SetActive(false);
         pauseUI.SetActive(false);
+
         gameoverUI.SetActive(true);
     }
 
     public void GameClearUI()
     {
+        SoundManager.Instance.SFXPlay("Clear", clearSound);
         ingameUI.SetActive(false);
         gameClearUI.SetActive(true);
     }
