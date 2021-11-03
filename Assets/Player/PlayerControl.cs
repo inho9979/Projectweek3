@@ -17,7 +17,8 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     private Touch touchFuc;
     private PlayerEffect playerEffect;
     private Score getScore;
-
+    private CharactorStats playerStat;
+    
     private float moveToX = 3f;
     private bool isMove;
 
@@ -62,6 +63,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         ClearMove,
         End,
         GameOver,
+        Big,
     }
     private MoveState state;
     private MoveState beforeState;
@@ -103,6 +105,8 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                 case MoveState.GameOver:
                     playerAni.SetTrigger("Down");
                     moveSpeed = Constants.playerBackSpeed;
+                    break;
+                case MoveState.Big:
                     break;
             }
         }
@@ -148,7 +152,6 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     }
     void FixedUpdate()
     {
-
         playerAni.SetFloat("Speed", moveSpeed);
         switch (State)
         {
@@ -291,39 +294,61 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             // 마지막 달리기는 더 빠르게
             moveSpeed = 16f;
             playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+            curPos = transform.position;
         }
         // 보너스런 종료후 연출무빙
         else
         {
-            // 최대 콤보 달성시 동작
-            if (getScore.MaxCombo == GameManager.Instance.mapStageInfo.WallCount)
+            var endPos = curPos + new Vector3(0f, 0f, 7f);
+            var distance = Vector3.Distance(transform.position, endPos);
+            var enddir = (endPos - transform.position).normalized;
+            playerEffect.FinishAuraEffectOff();
+
+            if (distance >= 2f)
             {
-                var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
-                var distance = Vector3.Distance(transform.position, endPos);
-                var enddir = (endPos - transform.position).normalized;
-                playerEffect.FinishAuraEffectOff();
 
-                if (distance >= 2f)
-                {
-
-                    moveSpeed = 5f;
-                    playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
-                }
-                else
-                {
-                    moveSpeed = 0f;
-                    var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
-                    camera.CameraState = CameraMove.State.Ending;
-
-                    State = MoveState.Idle;
-                }
+                moveSpeed = 5f;
+                playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
             }
             else
             {
+                moveSpeed = 0f;
                 var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
                 camera.CameraState = CameraMove.State.Ending;
+
                 State = MoveState.Idle;
             }
+
+            //// 최대 콤보 달성시 동작
+            //if (getScore.MaxCombo == GameManager.Instance.mapStageInfo.WallCount)
+            //{
+            //    //var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
+            //    var endPos = curPos + new Vector3(0f, 0f, 5f);
+            //    var distance = Vector3.Distance(transform.position, endPos);
+            //    var enddir = (endPos - transform.position).normalized;
+            //    playerEffect.FinishAuraEffectOff();
+
+            //    if (distance >= 2f)
+            //    {
+
+            //        moveSpeed = 5f;
+            //        playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+            //    }
+            //    else
+            //    {
+            //        moveSpeed = 0f;
+            //        var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+            //        camera.CameraState = CameraMove.State.Ending;
+
+            //        State = MoveState.Idle;
+            //    }
+            //}
+            //else
+            //{
+            //    var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+            //    camera.CameraState = CameraMove.State.Ending;
+            //    State = MoveState.Idle;
+            //}
         }
     }
     private void PlayerGameOver()

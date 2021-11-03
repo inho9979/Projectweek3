@@ -135,6 +135,8 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                     powerItemCount--;
                     posList.Add(itemPos2);
                 }
+                if (powerItemCount < 1)
+                    break;
             }
         }
         while (healItemCount > 0)
@@ -160,6 +162,34 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                     healItemCount--;
                     posList.Add(itemPos2);
                 }
+                if (healItemCount < 1)
+                    break;
+            }
+        }
+        int bigItemCount = 1;
+        while(bigItemCount > 0)
+        {
+            foreach (var obj in wallList)
+            {
+                var randomPos = Random.Range(-1, 2);
+                var itemPos2 = new Vector3(randomPos * 3f, 1f, obj.transform.position.z - 13);
+                if (posList.Contains(itemPos2))
+                {
+                    continue;
+                }
+                var perCent = Random.Range(0, 100);
+                if (perCent < 10)
+                {
+                    // ºò ¾ÆÀÌÅÛ
+                    var tempItem = Instantiate(itemPrefab[2], itemPos2, Quaternion.identity);
+                    //var tempAura = Instantiate(healAura, tempItem.transform);
+                    //tempAura.Play();
+                    bigItemCount--;
+                    posList.Add(itemPos2);
+                }
+
+                if (bigItemCount < 1)
+                    break;
             }
         }
     }
@@ -211,6 +241,11 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
     public IEnumerator wallDestroy(GameObject wall)
     {
         yield return new WaitForSeconds(1f);
+        Destroy(wall);
+    }
+    public IEnumerator BonusWallDestroy(GameObject wall)
+    {
+        yield return new WaitForSeconds(2.5f);
         Destroy(wall);
     }
     void Update()

@@ -123,6 +123,11 @@ public class PlayerCollision : MonoBehaviour
             }
         }
 
+        if(other.tag is "BigItem")
+        {
+            
+        }
+
         if(other.tag is "BonusWall")
         {
             SoundManager.Instance.SFXPlay("FinishCrush", finishCrush);
@@ -133,6 +138,9 @@ public class PlayerCollision : MonoBehaviour
             {
                 obj.gameObject.SendMessage("Damage", 1000f, SendMessageOptions.DontRequireReceiver);
             }
+
+            var objMgr = InGameManager.instance.objectManager.GetComponent<ObjectManager>();
+            StartCoroutine(objMgr.BonusWallDestroy(other.transform.gameObject));
         }
 
         if(other.tag is "Wall")

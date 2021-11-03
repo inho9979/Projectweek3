@@ -18,6 +18,7 @@ TagManager:
   - TutoObject
   - Mesh
   - VirCam
+  - BigItem
   layers:
   - Default
   - TransparentFX
