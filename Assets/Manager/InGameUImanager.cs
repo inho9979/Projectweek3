@@ -160,14 +160,14 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     {
         SoundManager.Instance.SFXPlay("ClearBtn", startClearBtn);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void LobbyButton()
     {
         SoundManager.Instance.SFXPlay("ClearBtn", startClearBtn);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     public void GameOverUI()

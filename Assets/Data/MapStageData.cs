@@ -6,8 +6,8 @@ using System;
 public class MapStageData : MonoBehaviour
 {
     private int stageLv = 1;
-    private int maxStageLv = 300;
-    private int limitStageLv = 3;
+    private int maxStageLv = 200;
+    private int limitStageLv = 2;
 
     private int wallCount;
     private int normalHp;

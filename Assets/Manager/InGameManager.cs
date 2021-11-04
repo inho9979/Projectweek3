@@ -102,7 +102,7 @@ public class InGameManager : MonoBehaviour
     public void ReStart()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
     public void Pause()
     {

@@ -35,7 +35,7 @@ public class IngameUI : MonoBehaviour
     {
         if(scoreObj.CurCombo > 1)
         {
-            Debug.Log(scoreObj.CurCombo);
+            //Debug.Log(scoreObj.CurCombo);
             comboText.enabled = true;
             comboCountText.enabled = true;
             if(coRoutine != null)

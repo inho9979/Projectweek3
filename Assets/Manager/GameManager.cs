@@ -28,8 +28,8 @@ public class GameManager : MonoBehaviour
             playerStatInfo = gameObject.GetComponent<PlayerStatData>();
             mapStageInfo = gameObject.GetComponent<MapStageData>();
             instance = this;
-            BGMVolume = 0.4f;
-            EffectVolume = 0.4f;
+            BGMVolume = 0f;
+            EffectVolume = 0f;
         }
         else if(instance != this)
         {

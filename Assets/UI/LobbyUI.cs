@@ -21,7 +21,7 @@ public class LobbyUI : GenericUI
     {
         SoundManager.Instance.SFXPlay("GameStartBtn", clip);
         LobbyUImanager.Instance.Open(Windows.Option);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
     public void Option()
     {

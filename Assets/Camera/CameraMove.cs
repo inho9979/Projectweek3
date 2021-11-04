@@ -8,9 +8,11 @@ public class CameraMove : MonoBehaviour
 {
     private Transform target;
     private Vector3 distance;
+    private Vector3 baseRotate;
     private Vector3 finishDistance2;
     private Vector3 finishRotate2;
-    private Vector3 baseRotate;
+
+    private Vector3 bigDistance;
 
     private Transform statsPos;
 
@@ -64,6 +66,7 @@ public class CameraMove : MonoBehaviour
         baseRotate = new Vector3(30f, 0f, 0f);
         finishDistance2 = new Vector3(6f, 10f, 23f);
         finishRotate2 = new Vector3(38.5f, -155f, -3.9f);
+        bigDistance = new Vector3(0f, 10f, -5.5f);
 
         vir1Distance = new Vector3(1f, 3.3f, 3.3f);
         vir1Rotate = new Vector3(32f, -166f, -6f);
@@ -107,9 +110,21 @@ public class CameraMove : MonoBehaviour
 
     public void InLoadMove()
     {
-        transform.position = (target.position + distance);
+        if(InGameManager.instance.player.GetComponent<PlayerControl>().isBigger == true)
+        {
+            transform.position = Vector3.Lerp(transform.position, target.position + bigDistance, Time.deltaTime * 3f);
+        }
+        else
+        {
+            transform.position = target.position + distance;
+        }
         transform.rotation = Quaternion.Euler(baseRotate);
         VirCamMove();
+    }
+
+    public void InLoadBigMove()
+    {
+
     }
 
     public void FinishLoadMove()
@@ -117,7 +132,6 @@ public class CameraMove : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, target.position + finishDistance2, Time.deltaTime * 3f);
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(finishRotate2), Time.deltaTime * 3f);
         VirCamMove();
-
     }
 
     public void VirCamMove()

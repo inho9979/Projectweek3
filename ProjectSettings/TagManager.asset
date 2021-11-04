@@ -19,6 +19,7 @@ TagManager:
   - Mesh
   - VirCam
   - BigItem
+  - VirCam1
   layers:
   - Default
   - TransparentFX

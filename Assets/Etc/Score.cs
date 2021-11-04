@@ -67,7 +67,6 @@ public class Score : MonoBehaviour
 
     public void ScoreUp(int wallHp, int playerAtk)
     {
-        Debug.Log(wallHp);
         var attackPoint = wallHp - (wallHp - playerAtk) * -1;
         if (attackPoint <= 0)
             attackPoint = 1;

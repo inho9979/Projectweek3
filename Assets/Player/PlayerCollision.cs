@@ -39,6 +39,7 @@ public class PlayerCollision : MonoBehaviour
     {
         if(other.tag is "ClearFlag")
         {
+            playerCtrl.isBigger = false;
             InGameManager.instance.GameState = InGameManager.InGameState.Bonus;
         }
         
@@ -55,7 +56,7 @@ public class PlayerCollision : MonoBehaviour
                     SoundManager.Instance.SFXPlay("WallCrush", crushSound);
                     SoundManager.Instance.SFXPlay("Attack", attackSound);
 
-                    Debug.Log($"curCom: {getScore.CurCombo}, maxCom: {getScore.MaxCombo}");
+                    //Debug.Log($"curCom: {getScore.CurCombo}, maxCom: {getScore.MaxCombo}");
 
                     var frags = Physics.OverlapSphere(transform.position, 10f);
                     foreach (var obj in frags)
@@ -125,7 +126,8 @@ public class PlayerCollision : MonoBehaviour
 
         if(other.tag is "BigItem")
         {
-            
+            playerCtrl.State = PlayerControl.MoveState.Big;
+            StartCoroutine(ReturnSmall());
         }
 
         if(other.tag is "BonusWall")
@@ -149,6 +151,12 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
+    IEnumerator ReturnSmall()
+    {
+        yield return new WaitForSeconds(7f);
+        playerCtrl.isBigger = false;
+        Debug.Log(playerCtrl.isBigger);
+    }
 
 
     //private void OnCollisionEnter(Collision collision)

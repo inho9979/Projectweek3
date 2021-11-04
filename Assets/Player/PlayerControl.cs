@@ -22,6 +22,10 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     private float moveToX = 3f;
     private bool isMove;
 
+    private float moveSpeed = 0f;
+    private float timer = 0f;
+    private Vector3 curPos;
+
     // 트리거
     private bool isClear;
     public bool IsClear
@@ -41,11 +45,8 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             isBonusRun = value;
         }
     }
+    public bool isBigger = false;
 
-    private float moveSpeed = 0f;
-    private float timer = 0f;
-
-    private Vector3 curPos;
     public enum MoveDirection
     {
         front,
@@ -107,6 +108,13 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                     moveSpeed = Constants.playerBackSpeed;
                     break;
                 case MoveState.Big:
+                    // 포지션 중앙으로 변경
+                    transform.position = new Vector3(0f, transform.position.y, transform.position.z);
+                    transform.rotation = Quaternion.identity;
+                    isBigger = true;
+                    StartCoroutine(CoBigger(2f));
+                    playerStat.Power = 99999;
+                    playerStat.TotalPower = 1;
                     break;
             }
         }
@@ -122,6 +130,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         transform.position = new Vector3(0f, 0f, -100f);
         touchFuc = GameObject.FindWithTag("Touch").GetComponent<Touch>();
         getScore = InGameManager.instance.score.GetComponent<Score>();
+        playerStat = GetComponent<CharactorStats>();
     }
 
     public void ChangeState(InGameManager.InGameState state)
@@ -141,6 +150,11 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                 State = MoveState.Idle;
                 break;
             case InGameManager.InGameState.Bonus:
+                if(State == MoveState.Big)
+                {
+                    isBigger = false;
+                    PlayerBigMove();
+                }
                 State =  MoveState.ClearMove;
                 break;
             case InGameManager.InGameState.Clear:
@@ -152,7 +166,10 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     }
     void FixedUpdate()
     {
-        playerAni.SetFloat("Speed", moveSpeed);
+        if (MoveState.Big != state)
+        {
+            playerAni.SetFloat("Speed", moveSpeed);
+        }
         switch (State)
         {
             case MoveState.Idle:
@@ -176,6 +193,10 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             case MoveState.GameOver:
                 PlayerGameOver();
                 break;
+            case MoveState.Big:
+                playerAni.SetFloat("Speed", 5f);
+                PlayerBigMove();
+                break;
         }
     }
     private void PlayerIdle()
@@ -185,6 +206,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     {
         var moveDir = transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+
 #if UNITY_ANDROID
         var Swipevec = touchFuc.Swipe();
         if (Swipevec != Vector2.zero)
@@ -318,37 +340,6 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
 
                 State = MoveState.Idle;
             }
-
-            //// 최대 콤보 달성시 동작
-            //if (getScore.MaxCombo == GameManager.Instance.mapStageInfo.WallCount)
-            //{
-            //    //var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
-            //    var endPos = curPos + new Vector3(0f, 0f, 5f);
-            //    var distance = Vector3.Distance(transform.position, endPos);
-            //    var enddir = (endPos - transform.position).normalized;
-            //    playerEffect.FinishAuraEffectOff();
-
-            //    if (distance >= 2f)
-            //    {
-
-            //        moveSpeed = 5f;
-            //        playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
-            //    }
-            //    else
-            //    {
-            //        moveSpeed = 0f;
-            //        var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
-            //        camera.CameraState = CameraMove.State.Ending;
-
-            //        State = MoveState.Idle;
-            //    }
-            //}
-            //else
-            //{
-            //    var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
-            //    camera.CameraState = CameraMove.State.Ending;
-            //    State = MoveState.Idle;
-            //}
         }
     }
     private void PlayerGameOver()
@@ -356,7 +347,6 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         timer += Time.deltaTime;
         if (timer > 1f)
         {
-
             moveSpeed = 0f;
             transform.position = curPos + new Vector3(0f, 0.12f, 0f);
         }
@@ -367,7 +357,44 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             curPos = transform.position;
         }
     }
+    private void PlayerBigMove()
+    {
+        var moveDir = transform.forward;
+        playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+        if(isBigger == false)
+        {
+            isMove = false;
+            state = MoveState.Run;
+            StartCoroutine(CoSmall(2f));
+            playerStat.Power = GameManager.Instance.playerStatInfo.Power;
+        }
+    }
+
+    IEnumerator CoBigger(float duration)
+    {
+        var timer = 0f;
+        while(timer < duration)
+        {
+            timer += Time.deltaTime;
+            var bigScale = new Vector3(3f, 3f, 3f);
+            transform.localScale = Vector3.Lerp(transform.localScale, bigScale, Time.deltaTime * 3f);
+            yield return null;
+        }
+    }
+    IEnumerator CoSmall(float duration)
+    {
+        Debug.Log("작아져야지");
+        var timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            var samllScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = Vector3.Lerp(transform.localScale, samllScale, Time.deltaTime * 3f);
+            yield return null;
+        }
+    }
 }
+
 
 // 안쓰는 코드
 //IEnumerator MoveToX(int dir)
@@ -446,4 +473,36 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
 //{
 //    State = MoveState.Idle;
 //    isClear = true;
+//}
+
+
+//// 최대 콤보 달성시 동작
+//if (getScore.MaxCombo == GameManager.Instance.mapStageInfo.WallCount)
+//{
+//    //var endPos = GameObject.FindWithTag("BonusEnd").transform.position;
+//    var endPos = curPos + new Vector3(0f, 0f, 5f);
+//    var distance = Vector3.Distance(transform.position, endPos);
+//    var enddir = (endPos - transform.position).normalized;
+//    playerEffect.FinishAuraEffectOff();
+
+//    if (distance >= 2f)
+//    {
+
+//        moveSpeed = 5f;
+//        playerRigid.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+//    }
+//    else
+//    {
+//        moveSpeed = 0f;
+//        var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+//        camera.CameraState = CameraMove.State.Ending;
+
+//        State = MoveState.Idle;
+//    }
+//}
+//else
+//{
+//    var camera = InGameManager.instance.camera.GetComponent<CameraMove>();
+//    camera.CameraState = CameraMove.State.Ending;
+//    State = MoveState.Idle;
 //}

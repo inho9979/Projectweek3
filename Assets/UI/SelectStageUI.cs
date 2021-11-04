@@ -45,13 +45,13 @@ public class SelectStageUI : MonoBehaviour
     public void StartStage()
     {
         SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
     public void BackButton()
     {
         SoundManager.Instance.SFXPlay("ExpUp", buttonClick);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     public void PlusButton()

@@ -6,11 +6,16 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
 {
     public GameObject wallPrefab;
     public GameObject bonusWallPrefab;
-    public GameObject bonusStage;
+    public GameObject[] bonusStage;
     public GameObject tutoWallPrefab;
     public GameObject[] itemPrefab;
     public ParticleSystem powerAura;
     public ParticleSystem healAura;
+
+    public GameObject backGround;
+    public GameObject floorObj;
+    public GameObject endTrigger;
+    public GameObject virCam;
 
     private GameObject tutoWall;
     public List<GameObject> wallList = new List<GameObject>();
@@ -43,6 +48,65 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         clearGold = GameManager.Instance.mapStageInfo.ClearGold;
 
         wallDistance = 20;
+
+        virCam = GameObject.FindWithTag("VirCam1");
+        StageInit();
+    }
+
+    public void StageInit()
+    {
+        var backGDistance = 55f;
+
+        var floor = Instantiate(floorObj);
+        var background = Instantiate(backGround);
+        var trigger = Instantiate(endTrigger);
+
+        var bgPos = background.transform.position;
+
+        if (wallCount == 10)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var createPos = new Vector3(bgPos.x, bgPos.y, bgPos.z + backGDistance * (i + 1));
+                Instantiate(background, createPos, Quaternion.identity);
+            }
+        }
+        else if (wallCount == 15)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var createPos = new Vector3(bgPos.x, bgPos.y, bgPos.z + backGDistance * (i + 1));
+                Instantiate(background, createPos, Quaternion.identity);
+            }
+
+            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 20);
+            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 105);
+            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 105);
+        }
+        else if (wallCount == 20)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                var createPos = new Vector3(bgPos.x, bgPos.y, bgPos.z + backGDistance * (i + 1));
+                Instantiate(background, createPos, Quaternion.identity);
+            }
+
+            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 40);
+            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 230);
+            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 230);
+        }
+        else if (wallCount == 25)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                var createPos = new Vector3(bgPos.x, bgPos.y, bgPos.z + backGDistance * (i + 1));
+                Instantiate(background, createPos, Quaternion.identity);
+            }
+
+            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 60);
+            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 345);
+            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 345);
+        }
     }
 
 
@@ -87,22 +151,6 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
         }
     }
 
-    //public void BonusWallGenerate(float startPosZ, int Count)
-    //{
-    //    var distanceSum = 0f;
-    //    var walldistance = 8f;
-    //    var wallPos = bonusWallPrefab.transform.position;
-    //    for (int i = 0; i < Count; i++)
-    //    {
-    //        distanceSum += walldistance;
-    //        var locate = startPosZ + distanceSum;
-
-    //        var tempWall = Instantiate(bonusWallPrefab, new Vector3(wallPos.x, wallPos.y, locate), Quaternion.identity);
-    //        var wallPoint = tempWall.GetComponent<BonusWall>();
-    //        wallPoint.SetPoint((i+1) * 100);
-    //        bonusWallList.Add(tempWall);
-    //    }
-    //}
 
     public void ItemGenerate(int[] powerItem, int[] healItem)
     {
@@ -196,42 +244,121 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
 
     public void BonusGenerate()
     {
-        var stage = Instantiate(bonusStage, bonusStage.transform.position, Quaternion.identity);
-        
-        var mesh = stage.transform.GetChild(0).GetComponent<MeshRenderer>();
-        mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
-
-        var bonusWalls = stage.GetComponentsInChildren<BonusWall>();
-        Debug.Log(bonusWalls.Length);
-        for (int i=0; i<bonusWalls.Length; i++)
+        if (wallCount == 10)
         {
-            bonusWalls[i].SetPoint(i + 1);
-            bonusWallList.Add(bonusWalls[i].gameObject);
-            var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
-            switch(i)
-            {
-                case 0: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
-                    break;
-                case 1: wallMesh.material.color = Color.yellow;
-                    break;
-                case 2: wallMesh.material.color = Color.green;
-                    break;
-                case 3: wallMesh.material.color = Color.blue;
-                    break;
-                case 4: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
-                    break;
-                case 5: wallMesh.material.color = Color.yellow;
-                    break;
-                case 6: wallMesh.material.color = Color.green;
-                    break;
-                case 7: wallMesh.material.color = Color.blue;
-                    break;
-                case 8: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
-                    break;
-                case 9: wallMesh.material.color = Color.yellow;
-                    break;
-            }
+            var stage = Instantiate(bonusStage[0], bonusStage[0].transform.position, Quaternion.identity);
+            var mesh = stage.transform.GetChild(0).GetComponent<MeshRenderer>();
+            mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
 
+            var bonusWalls = stage.GetComponentsInChildren<BonusWall>();
+            for (int i = 0; i < bonusWalls.Length; i++)
+            {
+                bonusWalls[i].SetPoint(i + 1);
+                bonusWallList.Add(bonusWalls[i].gameObject);
+                var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
+                switch (i % 4)
+                {
+                    case 0:
+                        wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                        break;
+                    case 1:
+                        wallMesh.material.color = Color.yellow;
+                        break;
+                    case 2:
+                        wallMesh.material.color = Color.green;
+                        break;
+                    case 3:
+                        wallMesh.material.color = Color.blue;
+                        break;
+                }
+            }
+        }
+        else if(wallCount == 15)
+        {
+            var stage = Instantiate(bonusStage[1], bonusStage[1].transform.position, Quaternion.identity);
+            var mesh = stage.transform.GetChild(0).GetComponent<MeshRenderer>();
+            mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
+
+            var bonusWalls = stage.GetComponentsInChildren<BonusWall>();
+            for (int i = 0; i < bonusWalls.Length; i++)
+            {
+                bonusWalls[i].SetPoint(i + 1);
+                bonusWallList.Add(bonusWalls[i].gameObject);
+                var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
+                switch (i % 4)
+                {
+                    case 0:
+                        wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                        break;
+                    case 1:
+                        wallMesh.material.color = Color.yellow;
+                        break;
+                    case 2:
+                        wallMesh.material.color = Color.green;
+                        break;
+                    case 3:
+                        wallMesh.material.color = Color.blue;
+                        break;
+                }
+            }
+        }
+        else if (wallCount == 20)
+        {
+            var stage = Instantiate(bonusStage[2], bonusStage[2].transform.position, Quaternion.identity);
+            var mesh = stage.transform.GetChild(0).GetComponent<MeshRenderer>();
+            mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
+
+            var bonusWalls = stage.GetComponentsInChildren<BonusWall>();
+            for (int i = 0; i < bonusWalls.Length; i++)
+            {
+                bonusWalls[i].SetPoint(i + 1);
+                bonusWallList.Add(bonusWalls[i].gameObject);
+                var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
+                switch (i % 4)
+                {
+                    case 0:
+                        wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                        break;
+                    case 1:
+                        wallMesh.material.color = Color.yellow;
+                        break;
+                    case 2:
+                        wallMesh.material.color = Color.green;
+                        break;
+                    case 3:
+                        wallMesh.material.color = Color.blue;
+                        break;
+                }
+            }
+        }
+        else if (wallCount == 25)
+        {
+            var stage = Instantiate(bonusStage[3], bonusStage[3].transform.position, Quaternion.identity);
+            var mesh = stage.transform.GetChild(0).GetComponent<MeshRenderer>();
+            mesh.material.color = new Color(1f, 0.43f, 0.05f, 1);
+
+            var bonusWalls = stage.GetComponentsInChildren<BonusWall>();
+            for (int i = 0; i < bonusWalls.Length; i++)
+            {
+                bonusWalls[i].SetPoint(i + 1);
+                bonusWallList.Add(bonusWalls[i].gameObject);
+                var wallMesh = bonusWalls[i].transform.GetChild(4).GetComponent<MeshRenderer>();
+                switch (i % 4)
+                {
+                    case 0:
+                        wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+                        break;
+                    case 1:
+                        wallMesh.material.color = Color.yellow;
+                        break;
+                    case 2:
+                        wallMesh.material.color = Color.green;
+                        break;
+                    case 3:
+                        wallMesh.material.color = Color.blue;
+                        break;
+                }
+            }
         }
         //BonusWallGenerate(stage.transform.position.z, 10);
         var scoreObj = InGameManager.instance.score.GetComponent<Score>();
@@ -255,6 +382,36 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
 }
 
 
+//case 4: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+//    break;
+//case 5: wallMesh.material.color = Color.yellow;
+//    break;
+//case 6: wallMesh.material.color = Color.green;
+//    break;
+//case 7: wallMesh.material.color = Color.blue;
+//    break;
+//case 8: wallMesh.material.color = new Color(1f, (50f / 255f), 0f, 1f);
+//    break;
+//case 9: wallMesh.material.color = Color.yellow;
+//break;
+
+
+//public void BonusWallGenerate(float startPosZ, int Count)
+//{
+//    var distanceSum = 0f;
+//    var walldistance = 8f;
+//    var wallPos = bonusWallPrefab.transform.position;
+//    for (int i = 0; i < Count; i++)
+//    {
+//        distanceSum += walldistance;
+//        var locate = startPosZ + distanceSum;
+
+//        var tempWall = Instantiate(bonusWallPrefab, new Vector3(wallPos.x, wallPos.y, locate), Quaternion.identity);
+//        var wallPoint = tempWall.GetComponent<BonusWall>();
+//        wallPoint.SetPoint((i+1) * 100);
+//        bonusWallList.Add(tempWall);
+//    }
+//}
 
 //while (count > 0)
 //{
