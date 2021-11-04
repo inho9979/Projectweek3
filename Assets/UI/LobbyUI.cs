@@ -28,6 +28,11 @@ public class LobbyUI : GenericUI
         SoundManager.Instance.SFXPlay("OptionBtn", clip);
         LobbyUImanager.Instance.Open(Windows.Option);
     }
+
+    public void Test()
+    {
+        LobbyUImanager.Instance.Open(Windows.Explain);
+    }
     public void Rule()
     {
         SoundManager.Instance.SFXPlay("RuleBtn", clip);
