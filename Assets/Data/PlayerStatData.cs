@@ -6,7 +6,7 @@ using System;
 
 public class PlayerStatData : MonoBehaviour
 {
-    private int curLevel = 1;
+    private int curLevel = 250;
     private int maxLevel = 300;
     private int gold = 300;
     //private float curExp = 0f;

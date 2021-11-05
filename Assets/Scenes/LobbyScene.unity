@@ -236,10 +236,10 @@ RectTransform:
   m_Father: {fileID: 1159253062}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -681.0003}
+  m_SizeDelta: {x: 870, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &49197782
 MonoBehaviour:
@@ -452,7 +452,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1178,10 +1178,10 @@ RectTransform:
   m_Father: {fileID: 1159253062}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 110}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -501.0003}
+  m_SizeDelta: {x: 870, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &431234383
 MonoBehaviour:
@@ -1394,7 +1394,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752151876}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoogleMobileAdTest, Assembly-CSharp
         m_MethodName: OnClickInit
         m_Mode: 1
@@ -2202,10 +2202,10 @@ RectTransform:
   m_Father: {fileID: 1159253062}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -321.0003}
+  m_SizeDelta: {x: 870, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &980222193
 MonoBehaviour:
@@ -2425,7 +2425,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2503,10 +2503,10 @@ RectTransform:
   m_Father: {fileID: 1159253062}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 1060.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -1736.2502}
+  m_SizeDelta: {x: 870, y: 1060.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1131671822
 MonoBehaviour:
@@ -2578,8 +2578,8 @@ RectTransform:
   m_Father: {fileID: 374937743}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.45134467}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2654,10 +2654,10 @@ RectTransform:
   m_Father: {fileID: 1159253062}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 166.0003}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -113.00015}
+  m_SizeDelta: {x: 870, y: 166.0003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143996331
 MonoBehaviour:
@@ -2764,7 +2764,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 970, y: 0}
-  m_SizeDelta: {x: 970, y: 0}
+  m_SizeDelta: {x: 970, y: 2466.5002}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1159253063
 MonoBehaviour:
@@ -3200,7 +3200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752151876}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoogleMobileAdTest, Assembly-CSharp
         m_MethodName: OnClickRequestReward
         m_Mode: 1
@@ -3283,7 +3283,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3502,10 +3502,10 @@ RectTransform:
   m_Father: {fileID: 1159253062}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 350}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 485, y: -981.0003}
+  m_SizeDelta: {x: 870, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1497747827
 MonoBehaviour:
@@ -3758,7 +3758,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752151876}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoogleMobileAdTest, Assembly-CSharp
         m_MethodName: OnClickRequestInterstitial
         m_Mode: 1
@@ -4106,7 +4106,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752151876}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoogleMobileAdTest, Assembly-CSharp
         m_MethodName: OnClickInterstitial
         m_Mode: 1
@@ -4318,7 +4318,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752151876}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GoogleMobileAdTest, Assembly-CSharp
         m_MethodName: OnClickReward
         m_Mode: 1
@@ -4657,7 +4657,6 @@ GameObject:
   - component: {fileID: 1752151874}
   - component: {fileID: 1752151873}
   - component: {fileID: 1752151875}
-  - component: {fileID: 1752151876}
   m_Layer: 5
   m_Name: TestUI
   m_TagString: Untagged
@@ -4744,21 +4743,6 @@ MonoBehaviour:
   manager: {fileID: 0}
   nextWindow: 0
   previousWindow: 0
---- !u!114 &1752151876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1752151871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4216a1e8d80b6c468449cdc505841b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interstitialButton: {fileID: 1606719346}
-  rewardButton: {fileID: 1657049839}
-  reward: {fileID: 1200435936}
 --- !u!1 &1841803492
 GameObject:
   m_ObjectHideFlags: 0
@@ -4792,7 +4776,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5268,7 +5252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2075026605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5350,6 +5334,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1080, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2081969922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2081969924}
+  - component: {fileID: 2081969923}
+  m_Layer: 0
+  m_Name: AdManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2081969923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081969922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4216a1e8d80b6c468449cdc505841b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reward: {fileID: 0}
+--- !u!4 &2081969924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081969922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.000000059604645, y: 1.8871945, z: -100.01216}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4971164319021707148
 PrefabInstance:
   m_ObjectHideFlags: 0

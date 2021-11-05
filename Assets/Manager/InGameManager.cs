@@ -69,10 +69,10 @@ public class InGameManager : MonoBehaviour
                     Bonus();
                     break;
                 case InGameState.Clear:
-                    uiCtrlComponent.ChangeState(gameState);
-                    playerCtrlComponent.ChangeState(gameState);
-                    objGenerateComponent.ChangeState(gameState);
-                    GameClear();
+                    StartCoroutine(GameClear());
+                    //uiCtrlComponent.ChangeState(gameState);
+                    //playerCtrlComponent.ChangeState(gameState);
+                    //objGenerateComponent.ChangeState(gameState);
                     break;
                 case InGameState.GameOver:
                     uiCtrlComponent.ChangeState(gameState);
@@ -124,8 +124,16 @@ public class InGameManager : MonoBehaviour
         //Pause();
     }
     // 게임 클리어시
-    public void GameClear()
+    public IEnumerator GameClear()
     {
+        GoogleMobileAdTest.Instance.RequestInterstitial();
+        GoogleMobileAdTest.Instance.StartInterstitial();
+
+        while(Time.timeScale <= 0.1f)
+        {
+            yield return null;
+        }
+
         scoreComponent.SetCoin();
 
         GameManager.Instance.playerStatInfo.Gold += scoreComponent.Coin;
@@ -150,6 +158,10 @@ public class InGameManager : MonoBehaviour
         {
             GameManager.Instance.maxComboInfo = scoreComponent.MaxCombo;
         }
+
+        uiCtrlComponent.ChangeState(gameState);
+        playerCtrlComponent.ChangeState(gameState);
+        objGenerateComponent.ChangeState(gameState);
     }
 
     //public void BonusStateCheck()

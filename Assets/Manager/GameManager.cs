@@ -49,6 +49,21 @@ public class GameManager : MonoBehaviour
         //}
     }
 
+    public void DataSave()
+    {
+        //SaveSystem.SaveData(playerStatInfo, mapStageInfo);
+    }
+
+    public void DataLoad()
+    {
+        //var data = SaveSystem.LoadData();
+        //playerStatInfo.CurLevel = data.level;
+        //playerStatInfo.Gold = data.gold;
+
+        //mapStageInfo.StageLv = data.stageLevel;
+        //mapStageInfo.LimitStageLv = data.stageLimitLevel;
+    }
+
     private void Update()
     {
     }
