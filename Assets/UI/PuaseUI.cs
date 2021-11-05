@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ClearUI : MonoBehaviour
+public class PuaseUI : MonoBehaviour
 {
-    public Text coinText;
+
     public Text score;
-    public Text maxComboText;
+    public Text MaxCombo;
 
     private Score scoreObj;
     void Start()
@@ -17,8 +17,7 @@ public class ClearUI : MonoBehaviour
 
     void Update()
     {
-        coinText.text = $"{scoreObj.Coin}";
-        score.text = $"Score: {scoreObj.ScorePoint}";
-        maxComboText.text = $"Combo Bonus: x{scoreObj.MaxCombo}";
+        score.text = $"Score  {scoreObj.ScorePoint}";
+        MaxCombo.text = $"MaxCombo  {scoreObj.MaxCombo}";
     }
 }

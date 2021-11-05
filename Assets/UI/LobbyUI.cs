@@ -20,7 +20,6 @@ public class LobbyUI : GenericUI
     public void GameStart()
     {
         SoundManager.Instance.SFXPlay("GameStartBtn", clip);
-        LobbyUImanager.Instance.Open(Windows.Option);
         SceneManager.LoadScene(1);
     }
     public void Option()
@@ -31,10 +30,8 @@ public class LobbyUI : GenericUI
 
     public void Test()
     {
-        LobbyUImanager.Instance.Open(Windows.Explain);
     }
     public void Rule()
     {
-        SoundManager.Instance.SFXPlay("RuleBtn", clip);
     }
 }

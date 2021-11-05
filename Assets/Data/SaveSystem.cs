@@ -18,7 +18,7 @@ public static class SaveSystem
 
     public static PlayerStageData LoadData()
     {
-        string path = Application.persistentDataPath + "/Save.Fun");
+        string path = Application.persistentDataPath + "/Save.Fun";
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -31,7 +31,7 @@ public static class SaveSystem
         }
         else
         {
-            Debug.LogError("Save File not found in " + path);
+            //Debug.LogError("Save File not found in " + path);
             return null;
         }
     }

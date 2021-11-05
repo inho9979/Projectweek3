@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Wall : MonoBehaviour
 {
@@ -51,13 +52,26 @@ public class Wall : MonoBehaviour
             mesh[i] = meshrender[i].GetComponent<MeshRenderer>();
         }
 
-        mesh[(int)weak].materials[0].color = Color.green;
-        for(int i=0; i<3; i++)
+        //mesh[(int)weak].materials[0].color = Color.green;
+        //for(int i=0; i<3; i++)
+        //{
+        //    if (i == (int)weak) continue;
+        //    mesh[i].materials[0].color = new Color(51f / 255f, 85f / 255f, 1f, 1f);
+        //}
+        var wallTxtColor = new Text[3];
+
+        wallTxtColor[0] = blockPoint[0].transform.GetComponentInChildren<Text>();
+        wallTxtColor[1] = blockPoint[1].transform.GetComponentInChildren<Text>();
+        wallTxtColor[2] = blockPoint[2].transform.GetComponentInChildren<Text>();
+
+        mesh[(int)weak].materials[0].color = Color.white;
+        wallTxtColor[(int)weak].color = Color.black;
+        for (int i = 0; i < 3; i++)
         {
             if (i == (int)weak) continue;
-            mesh[i].materials[0].color = new Color(51f / 255f, 85f / 255f, 1f, 1f);
+            mesh[i].materials[0].color = Color.black;
+            wallTxtColor[i].color = Color.white;
         }
-
     }
 
     public void DestroyMesh()

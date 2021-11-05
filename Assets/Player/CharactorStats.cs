@@ -18,6 +18,7 @@ public class CharactorStats : MonoBehaviour
 
     private Slider HpBar;
 
+    private GameObject testObj;
     public int CurLevel
     {
         get => curLevel;
@@ -88,6 +89,8 @@ public class CharactorStats : MonoBehaviour
         set
         {
             totalPower = power * value;
+            if (totalPower > 99999)
+                totalPower = 99999;
         }
     }
 
@@ -99,6 +102,9 @@ public class CharactorStats : MonoBehaviour
     {
         HpBar = GameObject.FindWithTag("PlayerStat").transform.GetChild(2).GetComponent<Slider>();
         Init();
+
+
+        testObj = GameObject.FindWithTag("Respawn");
     }
 
     public void powerInit()

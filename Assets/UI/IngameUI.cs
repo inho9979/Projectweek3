@@ -12,6 +12,7 @@ public class IngameUI : MonoBehaviour
     public Text stageText;
     private Score scoreObj;
     private Color curColor;
+    private Color clearColor;
 
     private Coroutine coRoutine;
     void Start()
@@ -19,9 +20,10 @@ public class IngameUI : MonoBehaviour
         scoreObj = InGameManager.instance.score.GetComponent<Score>();
         comboText.enabled = false;
         comboCountText.enabled = false;
-        curColor = comboText.color;
-        //scoreText = GetComponentInChildren<Text>();
-        //comboText = transform.GetChild(4)
+        curColor = new Color(1f, 217f / 255f, 0f, 1f);
+        clearColor = new Color(1f, 217f / 255f, 0f, 0f);
+        comboText.color = clearColor;
+        comboCountText.color = clearColor;
     }
 
     void Update()
@@ -35,7 +37,6 @@ public class IngameUI : MonoBehaviour
     {
         if(scoreObj.CurCombo > 1)
         {
-            //Debug.Log(scoreObj.CurCombo);
             comboText.enabled = true;
             comboCountText.enabled = true;
             if(coRoutine != null)
@@ -51,15 +52,17 @@ public class IngameUI : MonoBehaviour
         var timer = 0f;
         while (timer < duration)
         {
-            timer += Time.deltaTime;
-            var clearColor = new Color(comboText.color.r, comboText.color.g, comboText.color.b, 0.2f);
-            comboText.color = Color.Lerp(comboText.color, clearColor, Time.deltaTime * 2f);
-            comboCountText.color = Color.Lerp(comboCountText.color, clearColor, Time.deltaTime * 2f);
+            timer += Time.unscaledDeltaTime;
+            
+            //comboText.color = Color.Lerp(comboText.color, clearColor, Time.deltaTime * 2f);
+            //comboCountText.color = Color.Lerp(comboCountText.color, clearColor, Time.deltaTime * 2f);
+            comboText.color = Color.Lerp(comboText.color, curColor, Time.unscaledDeltaTime * 3f);
+            comboCountText.color = Color.Lerp(comboCountText.color, curColor, Time.unscaledDeltaTime * 3f);
             yield return null;
         }
         comboCountText.enabled = false;
         comboText.enabled = false;
-        comboText.color = curColor;
-        comboCountText.color = curColor;
+        comboText.color = clearColor;
+        comboCountText.color = clearColor;
     }
 }

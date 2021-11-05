@@ -14,6 +14,9 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
 
     private Text scoreTxt;
     private Text[] playerTxtUI;
+    private RectTransform statUI;
+    private GameObject playerPOS;
+
     private Score scoreObj;
     private CharactorStats playerStats;
     public GameObject[] tutoStep;
@@ -56,6 +59,8 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
         scoreTxt = obj.GetComponentInChildren<Text>();
 
         var playerStatUI = GameObject.FindWithTag("PlayerStat").GetComponentsInChildren<Text>();
+        statUI = GameObject.FindWithTag("PlayerStat").GetComponent<RectTransform>();
+        playerPOS = GameObject.FindWithTag("Respawn");
         playerTxtUI = new Text[playerStatUI.Length];
         // HP
         playerTxtUI[0] = playerStatUI[0];
@@ -98,7 +103,8 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     {
 
         playerTxtUI[0].text = $"HP: {playerStats.CurrentHp}";
-        playerTxtUI[1].text = $"POWER: {playerStats.TotalPower}";
+        playerTxtUI[1].text = $"ATK: {playerStats.TotalPower}";
+        statUI.anchoredPosition = new Vector3(statUI.position.x, 10f);
         if (isTutorial)
         {
             Tutorial();
@@ -140,6 +146,8 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
 
     public void PauseButton()
     {
+        ingameUI.GetComponent<IngameUI>().comboCountText.enabled = false;
+        ingameUI.GetComponent<IngameUI>().comboText.enabled = false;
         SoundManager.Instance.SFXPlay("PauseBtn", etcButton);
         InGameManager.instance.GameState = InGameManager.InGameState.Pause;
     }
@@ -154,6 +162,7 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
     {
         SoundManager.Instance.SFXPlay("PauseBtn", etcButton);
         InGameManager.instance.ReStart();
+
     }
 
     public void SelectStageButton()
@@ -168,6 +177,16 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
         SoundManager.Instance.SFXPlay("ClearBtn", startClearBtn);
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+    }
+    public void NextStageButton()
+    {
+        SoundManager.Instance.SFXPlay("ClearBtn", startClearBtn);
+        if (GameManager.Instance.mapStageInfo.LimitStageLv > GameManager.Instance.mapStageInfo.StageLv)
+        {
+            GameManager.Instance.mapStageInfo.StageLv++;
+            GameManager.Instance.mapStageInfo.SetStageLv(GameManager.Instance.mapStageInfo.StageLv);
+        }
+        SceneManager.LoadScene(2);
     }
 
     public void GameOverUI()
@@ -184,5 +203,6 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
         ingameUI.SetActive(false);
         gameClearUI.SetActive(true);
     }
+
 
 }

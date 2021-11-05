@@ -70,9 +70,6 @@ public class InGameManager : MonoBehaviour
                     break;
                 case InGameState.Clear:
                     StartCoroutine(GameClear());
-                    //uiCtrlComponent.ChangeState(gameState);
-                    //playerCtrlComponent.ChangeState(gameState);
-                    //objGenerateComponent.ChangeState(gameState);
                     break;
                 case InGameState.GameOver:
                     uiCtrlComponent.ChangeState(gameState);
@@ -162,6 +159,8 @@ public class InGameManager : MonoBehaviour
         uiCtrlComponent.ChangeState(gameState);
         playerCtrlComponent.ChangeState(gameState);
         objGenerateComponent.ChangeState(gameState);
+        // 클리어 할때 데이터 세이브
+        GameManager.Instance.DataSave();
     }
 
     //public void BonusStateCheck()
@@ -170,3 +169,7 @@ public class InGameManager : MonoBehaviour
     //        playerCtrlComponent.IsBonusRun = false;
     //}
 }
+
+//uiCtrlComponent.ChangeState(gameState);
+//playerCtrlComponent.ChangeState(gameState);
+//objGenerateComponent.ChangeState(gameState);

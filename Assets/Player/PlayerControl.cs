@@ -109,6 +109,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                     break;
                 case MoveState.Big:
                     // 포지션 중앙으로 변경
+                    moveSpeed = Constants.playerRunSpeed;
                     transform.position = new Vector3(0f, transform.position.y, transform.position.z);
                     transform.rotation = Quaternion.identity;
                     isBigger = true;
@@ -207,14 +208,22 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         var moveDir = transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
 
-#if UNITY_ANDROID
-        var Swipevec = touchFuc.Swipe();
-        if (Swipevec != Vector2.zero)
+        if (Input.GetMouseButton(0) && isMove == false)
         {
-            Debug.Log("스와이프");
-            moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
+            Debug.Log("버튼클릭");
+            var pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            moveDirect = pos.x > 0.5f ? MoveDirection.right : MoveDirection.left;
             State = MoveState.SideRun;
         }
+
+#if UNITY_ANDROID
+        //var Swipevec = touchFuc.Swipe();
+        //if (Swipevec != Vector2.zero)
+        //{
+        //    Debug.Log("스와이프");
+        //    moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
+        //    State = MoveState.SideRun;
+        //}
 #endif
 #if UNITY_STANDALONE_WIN
         if (Input.GetMouseButton(0) && isMove == false)
@@ -383,7 +392,6 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     }
     IEnumerator CoSmall(float duration)
     {
-        Debug.Log("작아져야지");
         var timer = 0f;
         while (timer < duration)
         {

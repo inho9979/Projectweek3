@@ -14,6 +14,10 @@ public class PlayerStageData
     public int stageLevel;
     public int stageLimitLevel;
 
+    public int clearStage;
+    public int highestScore;
+    public int maxCombo;
+
     public PlayerStageData (PlayerStatData playerData, MapStageData stageData)
     {
         level = playerData.CurLevel;
@@ -21,5 +25,9 @@ public class PlayerStageData
 
         stageLevel = stageData.StageLv;
         stageLimitLevel = stageData.LimitStageLv;
+
+        clearStage = GameManager.Instance.clearStageInfo;
+        highestScore = GameManager.Instance.highstScoreInfo;
+        maxCombo = GameManager.Instance.maxComboInfo;
     }
 }

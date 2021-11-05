@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
             instance = this;
             BGMVolume = 0f;
             EffectVolume = 0f;
+
+            // 일단 보류
+            DataLoad();
         }
         else if(instance != this)
         {
@@ -51,17 +54,30 @@ public class GameManager : MonoBehaviour
 
     public void DataSave()
     {
-        //SaveSystem.SaveData(playerStatInfo, mapStageInfo);
+        SaveSystem.SaveData(playerStatInfo, mapStageInfo);
     }
 
     public void DataLoad()
     {
-        //var data = SaveSystem.LoadData();
-        //playerStatInfo.CurLevel = data.level;
-        //playerStatInfo.Gold = data.gold;
+        var data = SaveSystem.LoadData();
+        if(data != null)
+        {
+            playerStatInfo.CurLevel = data.level;
+            playerStatInfo.Gold = data.gold;
 
-        //mapStageInfo.StageLv = data.stageLevel;
-        //mapStageInfo.LimitStageLv = data.stageLimitLevel;
+            mapStageInfo.StageLv = data.stageLevel;
+            mapStageInfo.LimitStageLv = data.stageLimitLevel;
+
+            maxComboInfo = data.maxCombo;
+            highstScoreInfo = data.highestScore;
+            clearStageInfo = data.clearStage;
+
+            Debug.Log($"{data.stageLevel} , {data.stageLimitLevel}");
+        }
+        else
+        {
+            Debug.Log("데이터 없음");
+        }
     }
 
     private void Update()
