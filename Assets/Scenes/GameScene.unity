@@ -485,9 +485,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 33e497698af496348876c085006842fb, type: 3}
+    m_Font: {fileID: 12800000, guid: 68e5156f804d5084ea718f5b4c11c80e, type: 3}
     m_FontSize: 45
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 4
     m_MaxSize: 300
@@ -497,7 +497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2A4\uC640\uC774\uD504\uB85C \uCE90\uB9AD\uD130 \uC774\uB3D9\uC744 \uD560\uC218\uC788\uC2B5\uB2C8\uB2E4."
+  m_Text: Swipe to move your character
 --- !u!222 &38654671
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2499,85 +2499,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 585867549}
   m_CullTransparentMesh: 1
---- !u!1 &589568928
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 589568929}
-  - component: {fileID: 589568931}
-  - component: {fileID: 589568930}
-  m_Layer: 5
-  m_Name: Explain2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &589568929
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589568928}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 948275357}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 268, y: 487}
-  m_SizeDelta: {x: 439.50757, y: 203.85748}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &589568930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589568928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.3207547, g: 0.29170522, b: 0.29170522, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 1
-    m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 80
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\uCE90\uB9AD\uD130\uC758 \uCCB4\uB825\uACFC \uACF5\uACA9\uB825!"
---- !u!222 &589568931
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589568928}
-  m_CullTransparentMesh: 1
 --- !u!1 &591692398
 GameObject:
   m_ObjectHideFlags: 0
@@ -3494,7 +3415,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 863411ebb51cbb749b5a8f4b93f20ec6, type: 3}
+    m_Font: {fileID: 12800000, guid: 68e5156f804d5084ea718f5b4c11c80e, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -3506,7 +3427,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD29C\uD1A0\uB9AC\uC5BC"
+  m_Text: TUTORIAL
 --- !u!222 &925545338
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3543,7 +3464,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1547413412}
-  - {fileID: 589568929}
   m_Father: {fileID: 82951213}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4772,9 +4692,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 68e5156f804d5084ea718f5b4c11c80e, type: 3}
     m_FontSize: 14
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 80
@@ -4784,9 +4704,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uACF5\uACA9\uB825\uBCF4\uB2E4 \uBCBD\uC758 \uCCB4\uB825\uC774 \uB192\uC73C\uBA74
-    \uADF8 \uCC28\uC774\uB9CC\uD07C \uCCB4\uB825\uC190\uC2E4!\n\uCCB4\uB825\uC774
-    0\uC774\uB418\uBA74 \uC2E4\uD328!"
+  m_Text: 'Game is over when you lose all HP. '
 --- !u!222 &1340535204
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5585,8 +5503,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -176, y: 298}
-  m_SizeDelta: {x: 640.49, y: 230.0279}
+  m_AnchoredPosition: {x: -104.11017, y: 254.72253}
+  m_SizeDelta: {x: 784.2697, y: 316.5827}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1547413413
 MonoBehaviour:
@@ -5609,21 +5527,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 68e5156f804d5084ea718f5b4c11c80e, type: 3}
     m_FontSize: 14
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 60
+    m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBCBD\uACFC \uCE90\uB9AD\uD130\uAC00 \uCDA9\uB3CC\uD560\uB54C \uCE90\uB9AD\uD130\uC758
-    \uACF5\uACA9\uB825\uC774 \uBCBD\uC758 \uCCB4\uB825\uBCF4\uB2E4 \uB192\uC73C\uBA74
-    \uBD80\uC21C\uB2E4!"
+  m_Text: 'You can destroy the wall when the character''s power is higher than the
+    number on the wall. '
 --- !u!222 &1547413414
 CanvasRenderer:
   m_ObjectHideFlags: 0
