@@ -1452,7 +1452,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 2, z: 1}
+  m_Size: {x: 2.2, y: 2, z: 1.42}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8380736682395298335
 MonoBehaviour:
@@ -2461,8 +2461,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 2, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.2, y: 2, z: 1.42}
+  m_Center: {x: -0.12, y: 0, z: 0}
 --- !u!114 &8380736682742436408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3068,8 +3068,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 2, z: 1.22}
-  m_Center: {x: 0.62, y: 0, z: 0}
+  m_Size: {x: 2.2, y: 2, z: 1.42}
+  m_Center: {x: 0.51, y: 0, z: 0}
 --- !u!114 &8380736682962542903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5224,6 +5224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 6d2ea8da59601cd4dab6b90e870ac466, type: 2}
+  blockPoint: []
 --- !u!1 &8380736683468540704
 GameObject:
   m_ObjectHideFlags: 0

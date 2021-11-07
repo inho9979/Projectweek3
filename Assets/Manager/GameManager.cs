@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     public int highstScoreInfo;
     public int clearStageInfo;
 
-    //public int sceneNum = -1;
+    public bool tutorialOn = true;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -71,6 +72,8 @@ public class GameManager : MonoBehaviour
             maxComboInfo = data.maxCombo;
             highstScoreInfo = data.highestScore;
             clearStageInfo = data.clearStage;
+
+            tutorialOn = data.isTutorial;
 
             Debug.Log($"{data.stageLevel} , {data.stageLimitLevel}");
         }

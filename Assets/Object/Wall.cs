@@ -12,7 +12,7 @@ public class Wall : MonoBehaviour
         left
     }
     public Material material;
-    private CollisionPoints[] blockPoint;
+    public CollisionPoints[] blockPoint;
     private WeakPoint weak;
     private MeshRenderer[] mesh = new MeshRenderer[3];
 

@@ -18,6 +18,10 @@ public class PlayerStageData
     public int highestScore;
     public int maxCombo;
 
+    // 튜토리얼 실행 여부
+
+    public bool isTutorial;
+
     public PlayerStageData (PlayerStatData playerData, MapStageData stageData)
     {
         level = playerData.CurLevel;
@@ -29,5 +33,7 @@ public class PlayerStageData
         clearStage = GameManager.Instance.clearStageInfo;
         highestScore = GameManager.Instance.highstScoreInfo;
         maxCombo = GameManager.Instance.maxComboInfo;
+
+        isTutorial = GameManager.Instance.tutorialOn;
     }
 }

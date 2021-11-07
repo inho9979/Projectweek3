@@ -7,6 +7,7 @@ public class OptionUI : GenericUI
 {
     public AudioClip clip;
     private Slider[] volumeSlider;
+    private Toggle toggle;
 
     public Text[] recordTexts;
     void Start()
@@ -16,6 +17,8 @@ public class OptionUI : GenericUI
 
         volumeSlider[0].value = GameManager.Instance.BGMVolume;
         volumeSlider[1].value = GameManager.Instance.EffectVolume;
+
+        toggle = gameObject.GetComponentInChildren<Toggle>();
     }
 
     void Update()
@@ -43,5 +46,10 @@ public class OptionUI : GenericUI
     public void EffectVolumeChange()
     {
         GameManager.Instance.EffectVolume = volumeSlider[1].value;
+    }
+
+    public void TutorialCheck()
+    {
+        GameManager.Instance.tutorialOn = toggle.isOn;
     }
 }

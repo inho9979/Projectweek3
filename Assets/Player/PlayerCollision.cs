@@ -46,6 +46,8 @@ public class PlayerCollision : MonoBehaviour
         if(other.tag is "WallPoint")
         {
             var objStat = other.transform.GetComponent<WallStats>();
+            var trigger = other.transform.parent.GetComponent<Wall>().blockPoint;
+
             if (objStat != null)
             {
                 if (objStat.WallHp <= playerStat.TotalPower)
@@ -100,6 +102,11 @@ public class PlayerCollision : MonoBehaviour
                 }
                 // 파워 아이템으로 올라간것 다시 초기화
                 playerStat.powerInit();
+
+                foreach(var obj in trigger)
+                {
+                    obj.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+                }
             }
         }
 
@@ -127,6 +134,7 @@ public class PlayerCollision : MonoBehaviour
         if(other.tag is "BigItem")
         {
             playerCtrl.State = PlayerControl.MoveState.Big;
+            Destroy(other.gameObject);
             StartCoroutine(ReturnSmall());
         }
 

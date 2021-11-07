@@ -23,6 +23,8 @@ public class SelectStageUI : MonoBehaviour
         textSet = new Text[transform.GetChild(9).childCount];
         textSet = transform.GetChild(9).GetComponentsInChildren<Text>();
         playerStat = GameManager.Instance.playerStatInfo;
+
+        textSet[3].text = $"{GameManager.Instance.mapStageInfo.StageLv}";
     }
 
     void Update()

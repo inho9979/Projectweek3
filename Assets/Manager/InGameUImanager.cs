@@ -114,19 +114,28 @@ public class InGameUImanager : MonoBehaviour, IStateChangeable
 
     public void Tutorial()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.Instance.tutorialOn)
         {
-            Debug.Log("터치함");
-            tutoStepNum++;
-            if (tutoStepNum > 2)
+            if (Input.GetMouseButtonDown(0))
             {
-                ingameUI.transform.GetChild(0).gameObject.SetActive(true);
-                isTutorial = false;
-                tutorialUI.SetActive(false);
-                return;
+                Debug.Log("터치함");
+                tutoStepNum++;
+                if (tutoStepNum > 2)
+                {
+                    ingameUI.transform.GetChild(0).gameObject.SetActive(true);
+                    isTutorial = false;
+                    tutorialUI.SetActive(false);
+                    return;
+                }
+                tutoStep[tutoStepNum - 1].SetActive(false);
+                tutoStep[tutoStepNum].SetActive(true);
             }
-            tutoStep[tutoStepNum - 1].SetActive(false);
-            tutoStep[tutoStepNum].SetActive(true);
+        }
+        else
+        {
+            ingameUI.transform.GetChild(0).gameObject.SetActive(true);
+            isTutorial = false;
+            tutorialUI.SetActive(false);
         }
     }
 
