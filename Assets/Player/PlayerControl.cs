@@ -25,6 +25,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
     private float moveSpeed = 0f;
     private float timer = 0f;
     private Vector3 curPos;
+    private float RunSpeed;
 
     // 트리거
     private bool isClear;
@@ -84,7 +85,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                     moveSpeed = 0f;
                     break;
                 case MoveState.Run:
-                    moveSpeed = Constants.playerRunSpeed;
+                    moveSpeed = RunSpeed;
                     break;
                 case MoveState.SideRun:
                     moveSpeed = Constants.playerRunSpeed;
@@ -132,6 +133,12 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         touchFuc = GameObject.FindWithTag("Touch").GetComponent<Touch>();
         getScore = InGameManager.instance.score.GetComponent<Score>();
         playerStat = GetComponent<CharactorStats>();
+
+
+        var plusSpeed = (GameManager.Instance.mapStageInfo.StageLv) % 25;
+        if (plusSpeed > 6)
+            plusSpeed = 6;
+        RunSpeed = Constants.playerRunSpeed + plusSpeed;
     }
 
     public void ChangeState(InGameManager.InGameState state)
@@ -208,22 +215,14 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         var moveDir = transform.forward;
         playerRigid.MovePosition(transform.position + moveDir * moveSpeed * Time.fixedDeltaTime);
 
-        if (Input.GetMouseButton(0) && isMove == false)
+#if UNITY_ANDROID
+        var Swipevec = touchFuc.Swipe();
+        if (Swipevec != Vector2.zero)
         {
-            Debug.Log("버튼클릭");
-            var pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            moveDirect = pos.x > 0.5f ? MoveDirection.right : MoveDirection.left;
+            Debug.Log("스와이프");
+            moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
             State = MoveState.SideRun;
         }
-
-#if UNITY_ANDROID
-        //var Swipevec = touchFuc.Swipe();
-        //if (Swipevec != Vector2.zero)
-        //{
-        //    Debug.Log("스와이프");
-        //    moveDirect = Swipevec == Vector2.right ? MoveDirection.right : MoveDirection.left;
-        //    State = MoveState.SideRun;
-        //}
 #endif
 #if UNITY_STANDALONE_WIN
         if (Input.GetMouseButton(0) && isMove == false)
@@ -289,7 +288,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
             // 이코드쓰면 작동 잘 안됨
             transform.rotation = Quaternion.identity;
             state = MoveState.Run;
-            moveSpeed = Constants.playerRunSpeed;
+            moveSpeed = RunSpeed;
             timer = 0f;
             isMove = false;
         }

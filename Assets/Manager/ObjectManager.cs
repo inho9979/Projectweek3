@@ -79,9 +79,9 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                 Instantiate(background, createPos, Quaternion.identity);
             }
 
-            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 20);
-            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 105);
-            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 105);
+            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 15);
+            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 76);
+            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 76);
         }
         else if (wallCount == 20)
         {
@@ -91,9 +91,9 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                 Instantiate(background, createPos, Quaternion.identity);
             }
 
-            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 40);
-            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 230);
-            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 230);
+            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 35);
+            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 201);
+            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 201);
         }
         else if (wallCount == 25)
         {
@@ -103,9 +103,9 @@ public class ObjectManager : MonoBehaviour, IStateChangeable
                 Instantiate(background, createPos, Quaternion.identity);
             }
 
-            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 60);
-            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 345);
-            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 345);
+            floor.transform.localScale = new Vector3(floor.transform.localScale.x, floor.transform.localScale.y, floor.transform.localScale.z + 55);
+            trigger.transform.position = new Vector3(trigger.transform.position.x, trigger.transform.position.y, trigger.transform.position.z + 316);
+            virCam.transform.position = new Vector3(virCam.transform.position.x, virCam.transform.position.y, virCam.transform.position.z + 316);
         }
     }
 
