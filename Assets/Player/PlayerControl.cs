@@ -88,7 +88,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                     moveSpeed = RunSpeed;
                     break;
                 case MoveState.SideRun:
-                    moveSpeed = Constants.playerRunSpeed;
+                    moveSpeed = RunSpeed;
                     curPos = transform.position;
                     break;
                 case MoveState.KnockBack:
@@ -135,9 +135,10 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
         playerStat = GetComponent<CharactorStats>();
 
 
-        var plusSpeed = (GameManager.Instance.mapStageInfo.StageLv) % 25;
+        var plusSpeed = (int)((GameManager.Instance.mapStageInfo.StageLv) / 25);
         if (plusSpeed > 6)
             plusSpeed = 6;
+        Debug.Log(plusSpeed);
         RunSpeed = Constants.playerRunSpeed + plusSpeed;
     }
 
@@ -206,6 +207,7 @@ public class PlayerControl : MonoBehaviour, IStateChangeable
                 PlayerBigMove();
                 break;
         }
+        Debug.Log(moveSpeed);
     }
     private void PlayerIdle()
     {

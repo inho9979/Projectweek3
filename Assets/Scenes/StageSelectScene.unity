@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 716891246}
   - component: {fileID: 716891245}
   m_Layer: 5
-  m_Name: CoinImg (1)
+  m_Name: CoinImg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -881,7 +881,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1042205095}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1458,8 +1458,8 @@ RectTransform:
   - {fileID: 1160111758}
   - {fileID: 1237526173}
   - {fileID: 622520617}
-  - {fileID: 1161716181}
   - {fileID: 716891244}
+  - {fileID: 1161716181}
   m_Father: {fileID: 1321239583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1782,7 +1782,7 @@ RectTransform:
   - {fileID: 1883009319}
   - {fileID: 1897197770}
   m_Father: {fileID: 1042205095}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}

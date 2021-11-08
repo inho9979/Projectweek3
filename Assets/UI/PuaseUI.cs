@@ -17,7 +17,5 @@ public class PuaseUI : MonoBehaviour
 
     void Update()
     {
-        score.text = $"Score  {scoreObj.ScorePoint}";
-        MaxCombo.text = $"MaxCombo  {scoreObj.MaxCombo}";
     }
 }
